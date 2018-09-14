@@ -1,0 +1,203 @@
+<h1 id="mkt%20-%20MaKe%20a%20Template">mkt - MaKe a Template</h1>
+
+<h2 id="motivation">motivation</h2>
+
+<p>I&#8217;ve always had a distaste for <code>Make</code>&#8217;s syntax, so I tried to make a similar
+tool geared towards readability and package decentralization</p>
+
+<p><code>mkt</code> is a bare-bones approach with 2 main functions:
+grouping packages, and executing optional commands;
+see below for details</p>
+
+<h2 id="syntax">syntax</h2>
+
+<p>a template is a line-based build/packaging format which consists of
+comments, macros, options, and paths</p>
+
+<p>templates use the standard ASCII character set, but reserve the &#8216;\n&#8217;, &#8216;#&#8217;,
+&#8216;(&#8217;, &#8216;)&#8217;, &#8216;,&#8217;, &#8216;&gt;&#8217;, and &#8216;\&#8217; characters;</p>
+
+<p>to escape one of these characters, it must be immediately prefaced
+with a backslash character: the only exception being &#8216;)&#8217;,
+which doesn&#8217;t need to be escaped;
+this behavior may also be used for line extension</p>
+
+<p>e.g.</p>
+
+<pre><code>not a comment # comment?
+
+\# comment?
+
+\(macro?)
+
+line 1 \
+
+line 2
+</code></pre>
+
+<p>becomes</p>
+
+<pre><code>not a comment
+
+# comment?
+
+(macro?)
+
+line 1 line 2
+</code></pre>
+
+<p>comments are prefaced with the pound sign, and may occur at any point
+within a line</p>
+
+<p>e.g.</p>
+
+<pre><code># this line is commented
+
+some other line # I&#39;m a comment
+</code></pre>
+
+<p>is interpreted as</p>
+
+<pre><code>some other line
+</code></pre>
+
+<p>macros are declared using the equals sign,
+and are expanded by wrapping their case-and-space-sensitive names
+with parentheses</p>
+
+<p>e.g.</p>
+
+<pre><code>my macro=some value
+
+(my macro)
+
+(mY mAcRo)
+
+( my macro )
+</code></pre>
+
+<p>becomes</p>
+
+<pre><code>my macro=some value
+
+some value
+
+(mY mAcRo)
+
+( my macro )
+</code></pre>
+
+<p>there are two special macro names: &#8220;title&#8221; and &#8220;wd&#8221;, which repectively define
+a template&#8217;s title and the working directory to find source files</p>
+
+<p>options are comma-separated (and need at least one comma to be recognized),
+and may contain muliple occurences
+and redefinitions of option values;</p>
+
+<p>every non-empty line following the option is considered a command,
+so long as it begins with a whitespace character</p>
+
+<p>e.g.</p>
+
+<pre><code>opt,
+
+    my command
+</code></pre>
+
+<p>executes &#8220;my command&#8221; whenever the option &#8220;opt&#8221; is supplied</p>
+
+<p>paths are lines which don&#8217;t match either the macro or option conventions;
+the greater than sign may be used to redefine a path</p>
+
+<p>e.g.</p>
+
+<pre><code>path/to/file
+
+path/to/file&gt;
+
+path/to/file&gt;new/local/path
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre><code>cp (wd)/path/to/file other-directory/
+
+cp (wd)/path/to/file other-directory/
+
+cp (wd)/path/to/file other-directory/new/local/path
+</code></pre>
+
+<p>when an the source is absolute, and matches the destination, the basename
+component is used as the destination;
+when the destination path is absolute, and differs from the source path,
+a SyntaxError is raised</p>
+
+<p>e.g.</p>
+
+<pre><code>/absolute/path
+
+/absolute/path&gt;/other/absolute/path
+
+/absolute/path&gt;relative/path
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre><code>cp /absolute/path other-directory/path
+
+SyntaxError
+
+cp /absolute/path other-directory/relative/path
+</code></pre>
+
+<p>file globbing is only evaluated when the source path contains globbing;
+if the source path uses file globbing and the destination path has no
+globbing in its basename component (after the final slash),
+a SyntaxError is raised;
+when the destination path uses file globbing, and any non-asterisk characters
+are present, the basename becomes a single asterisk (i.e. accepts all globbed
+paths)</p>
+
+<p>e.g.</p>
+
+<pre><code>path/to/files/*
+
+path/to/files/*&gt;new/local/path
+
+path/to/files/*&gt;new/local/paths*
+</code></pre>
+
+<p>is interpreted as</p>
+
+<pre><code>cp (wd)/path/to/files/* other-directory/path/to/files/*
+
+SyntaxError
+
+cp (wd)/path/to/files/* other-directory/new/local/*
+</code></pre>
+
+<h1 id="sample%20template">sample template</h1>
+
+<pre><code># an example template for this very program
+title=mkt
+wd=. # default source WD
+lang=Python 2
+
+COPYING # GPL 3 license
+(title).py
+
+s, show-help # show the help text for this program
+    python2 (title).py -h
+</code></pre>
+
+<h1 id="command-line%20help">command-line help</h1>
+
+<pre><code>MaKe a Template (into the CWD)
+Usage: python mkt.py [OPTIONS] PATH
+OPTIONS
+    -h, --help  display this text
+    -o, --overwrite overwrite the destination if it exists
+    template-specific options are also acceptable
+PATH
+    template path
+</code></pre>

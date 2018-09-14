@@ -1,0 +1,71 @@
+<h1 id="db%20-%20a%20string-based%20database">db - a string-based database</h1>
+
+<h2 id="motivation">motivation</h2>
+
+<p>databases these days are complicated, store many types of data, and are 
+often painfully optimized for speed, usability, and extensibility</p>
+
+<p>but a database should be fast, transparent, and understandable: much 
+like a Python dict</p>
+
+<p><code>db</code> is intended to accomplish all of these criteria through a simple,
+extensible solution: string-based keys</p>
+
+<h2 id="breakdown">breakdown</h2>
+
+<p>there are two main components: (1) the database file, and (2) entry data</p>
+
+<ol>
+<li>the database file (db.csv) is a ragged CSV document where each row is a list of name components</li>
+<li>entry files contain the actual data related to an entry, and are stored as raw data</li>
+</ol>
+
+<h2 id="directory%20structure">directory structure</h2>
+
+<ul>
+<li><p>./directory</p>
+
+<ul>
+<li><p>db.csv</p></li>
+<li><p>directory/subtree of hashed name components/entry.dat</p></li>
+</ul></li>
+</ul>
+
+<h2 id="API">API</h2>
+
+<p>a command-line tool will be developed for interaction with the database,
+however, the programmatic API contains the following operations:</p>
+
+<ul>
+<li><p>append</p></li>
+<li><p>clean</p></li>
+<li><p>contains</p></li>
+<li><p>delete</p></li>
+<li><p>get</p></li>
+<li><p>init</p></li>
+<li><p>list</p></li>
+<li><p>set</p></li>
+</ul>
+
+<h2 id="help">help</h2>
+
+<pre><code>a string-based database
+Usage: python db.py [OPTIONS] DIRECTORY ACTION [NAME [DATA]]
+OPTIONS
+    -h, --help  show this text and exit
+DIRECTORY
+    the database directory
+ACTION
+    append NAME [DATA]  append data to an entry
+    clean   clean the database (if it exists)
+    contains NAME   determine whether an entry exists
+    delete NAME delete an entry
+    get NAME    get an entry
+    init    initialize the database (happens with all actions)
+    list    list all entries as unicode-escaped strings
+    set NAME [DATA] set an entry
+NAME
+    an entry name (a CSV string)
+DATA
+    entry data (a string)
+</code></pre>
