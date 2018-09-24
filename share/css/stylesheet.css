@@ -1,4 +1,4 @@
-/* less-light style */
+/* light style */
 
 a {
   color: blue;
@@ -37,7 +37,6 @@ embed {
 }
 
 html {
-  background-color: #f0f0f0;
 	border-color: lightgrey;
 	font-family: Arial, Helvetica, sans-serif;
 }
