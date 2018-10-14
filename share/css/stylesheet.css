@@ -1,7 +1,7 @@
 /* light style */
 
 a {
-  color: blue;
+  color: white;
   text-decoration: none;
 }
 
@@ -32,7 +32,9 @@ embed {
 }
 
 html {
+  background-color: black;
 	border-color: lightgrey;
+	color: green;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
