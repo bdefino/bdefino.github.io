@@ -1,12 +1,12 @@
-/* hackery style */
+/* light style */
 
 a {
-  color: green;
+  color: blue;
+  text-decoration: none;
 }
 
-body {
-	margin-left: 10%;
-	margin-right: 10%;
+.align-right {
+  text-align: right;
 }
 
 code {
@@ -22,50 +22,22 @@ embed {
 	width: 100%;
 }
 
-footer {
-	border-left: solid 1px;
-	border-bottom: solid 1px;
-	border-bottom-left-radius: 16px;
-	padding: 5px;
-}
-
-#grid, #smooth {
+#grid {
 	border-collapse: collapse;
 	padding: 5px;
 }
 
 #grid td {
-	border: solid 1px;
-	border-color: green;
-}
-
-header {
-	border-left: solid 1px;
-	border-top: solid 1px;
-	border-top-left-radius: 16px;
-	padding: 5px;
-}
-
-header a {
-	text-decoration: none;
+	border: solid 1px lightgrey;
 }
 
 html {
-	background-color: white;
-	border-color: green;
-	color: green;
-}
-
-#license {
-  text-decoration: underline;
+	border-color: lightgrey;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .red {
   color: red;
-}
-
-#smooth {
-	border-radius: 8px;
 }
 
 table {
