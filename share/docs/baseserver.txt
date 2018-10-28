@@ -1,0 +1,17 @@
+Help on package baseserver:
+
+NAME
+    baseserver - a simple server framework
+
+FILE
+    baseserver/__init__.py
+
+PACKAGE CONTENTS
+    event
+    eventhandler
+    lib (package)
+    server
+    straddress
+
+SUBMODULES
+    threaded
