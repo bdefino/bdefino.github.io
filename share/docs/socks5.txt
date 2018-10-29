@@ -1,0 +1,14 @@
+Help on package socks5:
+
+NAME
+    socks5 - a simple RFC 1928-compliant SOCKS5 library
+
+FILE
+    socks5/__init__.py
+
+PACKAGE CONTENTS
+    auth
+    client
+    lib (package)
+    protocol (package)
+    server
