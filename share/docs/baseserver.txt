@@ -6,12 +6,22 @@ NAME
 FILE
     baseserver/__init__.py
 
+DESCRIPTION
+    basic flow:
+        1. if there's a kill order, stop
+        2. listen for an event
+        3. create a handler for the event
+        4. pass the handler to the callback
+        5. repeat from step 1
+
 PACKAGE CONTENTS
+    basehttpserver
+    baseserver
     event
     eventhandler
     lib (package)
     server
-    straddress
+    straddr
 
 SUBMODULES
     threaded

@@ -12,3 +12,6 @@ PACKAGE CONTENTS
     lib (package)
     protocol (package)
     server
+
+SUBMODULES
+    conf

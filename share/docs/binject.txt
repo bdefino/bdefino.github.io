@@ -1,0 +1,35 @@
+Help on module binject:
+
+NAME
+    binject - embed bits in binary
+
+FILE
+    binject.py
+
+CLASSES
+    Binject
+    
+    class Binject
+     |  a mechanism for transmitting data in specific bits of binary
+     |  
+     |  injected bits appear in little-endian order (lowest order bit first)
+     |  
+     |  specifying alignment means that an octet's bits cannot be split along
+     |  multiple binaries
+     |  
+     |  trail specifies whether to generate bits whose numbers don't
+     |  make up an entire octet
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, positions=(), align=False, trail=False)
+     |  
+     |  extract(self, generator)
+     |      generate extracted octets from the generated binaries
+     |  
+     |  inject(self, generator, src='')
+     |      inject the octets across the generated binaries
+     |      
+     |      note that the output binaries will be of the same type as
+     |      the input ones; their type's constructor must be able to
+     |      handle a single bytearray argument
