@@ -1,17 +1,22 @@
 Help on package socks5:
 
 NAME
-    socks5 - a simple RFC 1928-compliant SOCKS5 library
+    socks5 - a pure-python SOCKS5 library
 
 FILE
-    socks5/__init__.py
+    /run/media/hiten/HITEN/Documents/Code/socks5/socks5/__init__.py
+
+DESCRIPTION
+    when executed, runs a configurable SOCKS soerver (version 5 by default)
 
 PACKAGE CONTENTS
-    auth
+    authentication
     client
+    error
+    header
     lib (package)
-    protocol (package)
     server
 
 SUBMODULES
+    baseserver
     conf
