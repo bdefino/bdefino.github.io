@@ -7,7 +7,7 @@ FILE
     /run/media/hiten/HITEN/Documents/Code/socks5/socks5/__init__.py
 
 DESCRIPTION
-    when executed, runs a configurable SOCKS soerver (version 5 by default)
+    when executed, runs a configurable SOCKS server (version 5 by default)
 
 PACKAGE CONTENTS
     authentication
