@@ -9,6 +9,13 @@ a {
   text-align: right;
 }
 
+body {
+  background-attachment: fixed;
+  background-image: url("/share/images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 code {
 	padding: 2px;
 }
@@ -18,8 +25,8 @@ code {
 }
 
 embed {
-	height: 800px;
-	width: 100%;
+	height: 75%;
+	width: 75%;
 }
 
 #grid {
