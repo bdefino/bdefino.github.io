@@ -13,6 +13,7 @@ body {
   background-attachment: fixed;
   background-image: url("/share/images/background.jpg");
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 code {
