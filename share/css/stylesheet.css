@@ -32,6 +32,9 @@ embed {
 }
 
 html {
+  background-attachment: fixed;
+  background-image: url("/images/background.jpg");
+  background-repeat: no-repeat;
 	border-color: lightgrey;
 	font-family: Arial, Helvetica, sans-serif;
 }
