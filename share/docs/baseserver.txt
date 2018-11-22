@@ -1,27 +1,21 @@
 Help on package baseserver:
 
 NAME
-    baseserver - a simple server framework
+    baseserver - a simple event-based server framework
 
 FILE
     baseserver/__init__.py
 
 DESCRIPTION
-    basic flow:
-        1. if there's a kill order, stop
-        2. listen for an event
-        3. create a handler for the event
-        4. pass the handler to the callback
-        5. repeat from step 1
+    see BaseHTTPServer (basehttpserver.BaseHTTPServer)
+    for an example implementation
 
 PACKAGE CONTENTS
+    addr
     basehttpserver
     baseserver
     event
-    eventhandler
     lib (package)
-    server
-    straddr
 
 SUBMODULES
     threaded

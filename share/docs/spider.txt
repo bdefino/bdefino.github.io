@@ -7,8 +7,16 @@ FILE
     spider/__init__.py
 
 PACKAGE CONTENTS
+    callback
+    htmlextract
     lib (package)
     spider
+    url
 
 SUBMODULES
+    db
+    threaded
     uri
+
+DATA
+    DEFAULT_CALLBACK = <spider.callback.Callback instance>

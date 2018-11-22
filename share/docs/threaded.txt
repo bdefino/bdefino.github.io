@@ -4,316 +4,167 @@ NAME
     threaded - threaded multitasking
 
 FILE
-    threaded.py
+    threaded/threaded.py
 
 CLASSES
-    Queue.Queue
-        Threaded
-            Iterative
-                Pipelining
-    FuncInfo
-    IterableTask
     Synchronized
+    Task
+        IterableTask
+    TaskInfo
+    Threaded
+        Blocking
+        Slaving
+            Pipelining
     
-    class FuncInfo
-     |  information about a function call
+    class Blocking(Threaded)
+     |  block until a task can be executed
      |  
      |  Methods defined here:
      |  
-     |  __init__(self, func, output, *args, **kwargs)
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  put(self, task, *args, **kwargs)
+     |      block until the task can be executed
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Threaded:
+     |  
+     |  get(self)
+     |      if queue_output was specified, return a TaskInfo instance
     
-    class IterableTask
-     |  a task with discrete steps
+    class IterableTask(Task)
+     |  an interface for a multipart task
+     |  
+     |  note that __call__ and next don't accept arguments
      |  
      |  Methods defined here:
      |  
      |  __call__(self)
+     |      execute the entire task
      |  
      |  __init__(self)
      |  
      |  __iter__(self)
      |  
      |  next(self)
-     |      perform the next step (usually without a return value)
+     |      execute the next part of the task
     
-    class Iterative(Threaded)
-     |  when nthreads > 0, distributes tasks between a set number of handlers
-     |  
-     |  otherwise, uses Threaded's default behavior
-     |  
-     |  Method resolution order:
-     |      Iterative
-     |      Threaded
-     |      Queue.Queue
-     |  
-     |  Methods defined here:
-     |  
-     |  __init__(self, nthreads=1, queue_output=False, sleep=0.001)
-     |  
-     |  execute(self, func, *args, **kwargs)
-     |      add the task to the queue
-     |  
-     |  kill_all(self)
-     |      passively attempt to kill all the threads
-     |  
-     |  ----------------------------------------------------------------------
-     |  Methods inherited from Queue.Queue:
-     |  
-     |  empty(self)
-     |      Return True if the queue is empty, False otherwise (not reliable!).
-     |  
-     |  full(self)
-     |      Return True if the queue is full, False otherwise (not reliable!).
-     |  
-     |  get(self, block=True, timeout=None)
-     |      Remove and return an item from the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until an item is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Empty exception if no item was available within that time.
-     |      Otherwise ('block' is false), return an item if one is immediately
-     |      available, else raise the Empty exception ('timeout' is ignored
-     |      in that case).
-     |  
-     |  get_nowait(self)
-     |      Remove and return an item from the queue without blocking.
-     |      
-     |      Only get an item if one is immediately available. Otherwise
-     |      raise the Empty exception.
-     |  
-     |  join(self)
-     |      Blocks until all items in the Queue have been gotten and processed.
-     |      
-     |      The count of unfinished tasks goes up whenever an item is added to the
-     |      queue. The count goes down whenever a consumer thread calls task_done()
-     |      to indicate the item was retrieved and all work on it is complete.
-     |      
-     |      When the count of unfinished tasks drops to zero, join() unblocks.
-     |  
-     |  put(self, item, block=True, timeout=None)
-     |      Put an item into the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until a free slot is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Full exception if no free slot was available within that time.
-     |      Otherwise ('block' is false), put an item on the queue if a free slot
-     |      is immediately available, else raise the Full exception ('timeout'
-     |      is ignored in that case).
-     |  
-     |  put_nowait(self, item)
-     |      Put an item into the queue without blocking.
-     |      
-     |      Only enqueue the item if a free slot is immediately available.
-     |      Otherwise raise the Full exception.
-     |  
-     |  qsize(self)
-     |      Return the approximate size of the queue (not reliable!).
-     |  
-     |  task_done(self)
-     |      Indicate that a formerly enqueued task is complete.
-     |      
-     |      Used by Queue consumer threads.  For each get() used to fetch a task,
-     |      a subsequent call to task_done() tells the queue that the processing
-     |      on the task is complete.
-     |      
-     |      If a join() is currently blocking, it will resume when all items
-     |      have been processed (meaning that a task_done() call was received
-     |      for every item that had been put() into the queue).
-     |      
-     |      Raises a ValueError if called more times than there were items
-     |      placed in the queue.
-    
-    class Pipelining(Iterative)
-     |  pipeline iterable tasks;
-     |  tasks must be iterable, preferably subclassing IterableTask
-     |  
-     |  this class continually requeues unfinished tasks
+    class Pipelining(Slaving)
+     |  pipeline iterable tasks among the slaves
      |  
      |  Method resolution order:
      |      Pipelining
-     |      Iterative
+     |      Slaving
      |      Threaded
-     |      Queue.Queue
      |  
      |  Methods defined here:
      |  
-     |  __init__(self, *args, **kwargs)
+     |  __init__(self, nthreads=1)
      |  
-     |  execute(self, iterable_task)
-     |      accepts iterable tasks instead of functions
+     |  put(self, iterable_task)
+     |      add an iterable task to the queue
      |  
      |  ----------------------------------------------------------------------
-     |  Methods inherited from Iterative:
+     |  Methods inherited from Slaving:
      |  
      |  kill_all(self)
-     |      passively attempt to kill all the threads
+     |      attempt to gracefully kill the slaves
+     |  
+     |  start(self)
+     |      set alive to True and start the slaves
      |  
      |  ----------------------------------------------------------------------
-     |  Methods inherited from Queue.Queue:
+     |  Methods inherited from Threaded:
      |  
-     |  empty(self)
-     |      Return True if the queue is empty, False otherwise (not reliable!).
+     |  get(self)
+     |      if queue_output was specified, return a TaskInfo instance
+    
+    class Slaving(Threaded)
+     |  handle tasks among a finite (positive) number of slaves
      |  
-     |  full(self)
-     |      Return True if the queue is full, False otherwise (not reliable!).
+     |  because threads are tough to kill,
+     |  the only option is a graceful exit (use kill_all)
      |  
-     |  get(self, block=True, timeout=None)
-     |      Remove and return an item from the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until an item is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Empty exception if no item was available within that time.
-     |      Otherwise ('block' is false), return an item if one is immediately
-     |      available, else raise the Empty exception ('timeout' is ignored
-     |      in that case).
+     |  Methods defined here:
      |  
-     |  get_nowait(self)
-     |      Remove and return an item from the queue without blocking.
-     |      
-     |      Only get an item if one is immediately available. Otherwise
-     |      raise the Empty exception.
+     |  __init__(self, nthreads=1, *args, **kwargs)
      |  
-     |  join(self)
-     |      Blocks until all items in the Queue have been gotten and processed.
-     |      
-     |      The count of unfinished tasks goes up whenever an item is added to the
-     |      queue. The count goes down whenever a consumer thread calls task_done()
-     |      to indicate the item was retrieved and all work on it is complete.
-     |      
-     |      When the count of unfinished tasks drops to zero, join() unblocks.
+     |  kill_all(self)
+     |      attempt to gracefully kill the slaves
      |  
-     |  put(self, item, block=True, timeout=None)
-     |      Put an item into the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until a free slot is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Full exception if no free slot was available within that time.
-     |      Otherwise ('block' is false), put an item on the queue if a free slot
-     |      is immediately available, else raise the Full exception ('timeout'
-     |      is ignored in that case).
+     |  put(self, task, *args, **kwargs)
+     |      queue a task for execution
      |  
-     |  put_nowait(self, item)
-     |      Put an item into the queue without blocking.
-     |      
-     |      Only enqueue the item if a free slot is immediately available.
-     |      Otherwise raise the Full exception.
+     |  start(self)
+     |      set alive to True and start the slaves
      |  
-     |  qsize(self)
-     |      Return the approximate size of the queue (not reliable!).
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from Threaded:
      |  
-     |  task_done(self)
-     |      Indicate that a formerly enqueued task is complete.
-     |      
-     |      Used by Queue consumer threads.  For each get() used to fetch a task,
-     |      a subsequent call to task_done() tells the queue that the processing
-     |      on the task is complete.
-     |      
-     |      If a join() is currently blocking, it will resume when all items
-     |      have been processed (meaning that a task_done() call was received
-     |      for every item that had been put() into the queue).
-     |      
-     |      Raises a ValueError if called more times than there were items
-     |      placed in the queue.
+     |  get(self)
+     |      if queue_output was specified, return a TaskInfo instance
     
     class Synchronized
+     |  synchronized access to an object
+     |  
      |  Methods defined here:
      |  
      |  __init__(self, value=None)
      |  
+     |  callattr(self, attr='__call__', *args, **kwargs)
+     |  
      |  get(self)
      |  
-     |  modify(self, func=<function <lambda>>)
-     |      modify the value via a function
+     |  getattr(self, attr)
      |  
      |  set(self, value=None)
+     |  
+     |  setattr(self, attr, value=None)
+     |  
+     |  transform(self, func)
     
-    class Threaded(Queue.Queue)
-     |  allocates up to N additional threads for function calls (w/ blocking)
-     |  or run function calls in the current thread if nthreads == 0
+    class Task
+     |  an interface for a task
      |  
-     |  when nthreads == 0, tasks are executed in the calling thread
-     |  when nthreads < 0, tasks are always executed in a new thread
+     |  tasks don't have to subclass this,
+     |  as a task is simply something callable
      |  
-     |  when queue_output evaluates to True, function call information is
-     |  queued into .output_queue as FuncInfo instances
+     |  note that __call__ accepts arguments
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self, *args, **kwargs)
+     |      execute the task
+     |  
+     |  __init__(self)
+    
+    class TaskInfo
+     |  information about a task
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, task, output=None, *args, **kwargs)
+    
+    class Threaded
+     |  base class for a thread allocator
+     |  
+     |  in order to preserve return values, this behaves like a queue:
+     |  both the get and put operations are supported
+     |  
+     |  nthreads may be used to specify various behaviors:
+     |      nthreads < 0
+     |          -> a thread is spawned for each task
+     |      nthreads == 0
+     |          -> tasks are run in the current thread
+     |      nthreads > 0
+     |          -> up to nthreads tasks execute simultaneously
      |  
      |  Methods defined here:
      |  
      |  __init__(self, nthreads=-1, queue_output=False)
      |  
-     |  execute(self, func, *args, **kwargs)
-     |      block until thread allocation is possible
+     |  get(self)
+     |      if queue_output was specified, return a TaskInfo instance
      |  
-     |  ----------------------------------------------------------------------
-     |  Methods inherited from Queue.Queue:
-     |  
-     |  empty(self)
-     |      Return True if the queue is empty, False otherwise (not reliable!).
-     |  
-     |  full(self)
-     |      Return True if the queue is full, False otherwise (not reliable!).
-     |  
-     |  get(self, block=True, timeout=None)
-     |      Remove and return an item from the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until an item is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Empty exception if no item was available within that time.
-     |      Otherwise ('block' is false), return an item if one is immediately
-     |      available, else raise the Empty exception ('timeout' is ignored
-     |      in that case).
-     |  
-     |  get_nowait(self)
-     |      Remove and return an item from the queue without blocking.
-     |      
-     |      Only get an item if one is immediately available. Otherwise
-     |      raise the Empty exception.
-     |  
-     |  join(self)
-     |      Blocks until all items in the Queue have been gotten and processed.
-     |      
-     |      The count of unfinished tasks goes up whenever an item is added to the
-     |      queue. The count goes down whenever a consumer thread calls task_done()
-     |      to indicate the item was retrieved and all work on it is complete.
-     |      
-     |      When the count of unfinished tasks drops to zero, join() unblocks.
-     |  
-     |  put(self, item, block=True, timeout=None)
-     |      Put an item into the queue.
-     |      
-     |      If optional args 'block' is true and 'timeout' is None (the default),
-     |      block if necessary until a free slot is available. If 'timeout' is
-     |      a non-negative number, it blocks at most 'timeout' seconds and raises
-     |      the Full exception if no free slot was available within that time.
-     |      Otherwise ('block' is false), put an item on the queue if a free slot
-     |      is immediately available, else raise the Full exception ('timeout'
-     |      is ignored in that case).
-     |  
-     |  put_nowait(self, item)
-     |      Put an item into the queue without blocking.
-     |      
-     |      Only enqueue the item if a free slot is immediately available.
-     |      Otherwise raise the Full exception.
-     |  
-     |  qsize(self)
-     |      Return the approximate size of the queue (not reliable!).
-     |  
-     |  task_done(self)
-     |      Indicate that a formerly enqueued task is complete.
-     |      
-     |      Used by Queue consumer threads.  For each get() used to fetch a task,
-     |      a subsequent call to task_done() tells the queue that the processing
-     |      on the task is complete.
-     |      
-     |      If a join() is currently blocking, it will resume when all items
-     |      have been processed (meaning that a task_done() call was received
-     |      for every item that had been put() into the queue).
-     |      
-     |      Raises a ValueError if called more times than there were items
-     |      placed in the queue.
-
+     |  put(self, task, *args, **kwargs)
+     |      allocate space for a task, optionally with arguments
