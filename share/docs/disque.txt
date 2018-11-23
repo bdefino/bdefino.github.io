@@ -1,0 +1,11 @@
+Help on package disque:
+
+NAME
+    disque - persistent, large-scale queueing
+
+FILE
+    disque/__init__.py
+
+PACKAGE CONTENTS
+    disque
+    lib (package)
