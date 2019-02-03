@@ -10,11 +10,10 @@ a {
 }
 
 body {
-  background: lightgrey;
-  /*background-attachment: fixed;
+  background-attachment: fixed;
   background-image: url("/share/images/background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;*/
+  background-size: cover;
 }
 
 code {
