@@ -1,5 +1,3 @@
-Help on package spider:
-
 NAME
     spider - simple web spidering
 
@@ -10,11 +8,14 @@ PACKAGE CONTENTS
     callback
     htmlextract
     lib (package)
+    requestfactory
+    rule
     spider
     url
 
 SUBMODULES
     db
+    disque
     threaded
     uri
 
