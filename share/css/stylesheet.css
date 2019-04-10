@@ -9,13 +9,6 @@ a {
   text-align: right;
 }
 
-body {
-  /*background-attachment: fixed;
-  background-image: url("/share/images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;*/
-}
-
 code {
 	padding: 2px;
 }
@@ -35,11 +28,11 @@ embed {
 }
 
 #grid td {
-	border: solid 1px;/* lightgrey;*/
+	border: solid 1px lightgrey;
 }
 
 html {
-	/*border-color: lightgrey;*/
+	border-color: lightgrey;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -52,5 +45,5 @@ table {
 }
 
 td {
-	padding: 10px;
+	padding: 20px;
 }
