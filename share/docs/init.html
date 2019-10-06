@@ -7,17 +7,29 @@
 <ul>
 <li>entered immediately</li>
 <li>located in <code>./post-boot.d</code></li>
-<li>contains scripts executed in order according to <code>sort -h</code>
-### services</li>
+<li>contains scripts executed in order according to <code>sort -h</code></li>
+</ul>
+
+<h3 id="services">services</h3>
+
+<ul>
 <li>entered once post-boot is done</li>
 <li>located in <code>./enabled</code></li>
-<li>contains service directories to be executed in any order
-#### interface (from the context of <code>./enabled</code>)</li>
+<li>contains service directories to be executed in any order</li>
+</ul>
+
+<h4 id="interface%20(from%20the%20context%20of%20%3Ccode%3E./enabled%3C/code%3E)">interface (from the context of <code>./enabled</code>)</h4>
+
+<ul>
 <li><code>my-service/run</code> is the entry point for a service</li>
 <li>adding/removing a service to this directory will logically start/stop it</li>
 <li>the presence of <code>my-service/hold</code> will also stop the service (or keep it stopped); removing <code>my-service/hold</code> will reenable it</li>
-<li>output is logged to <code>my-service/log</code>
-### pre-halt</li>
+<li>output is logged to <code>my-service/log</code></li>
+</ul>
+
+<h3 id="pre-halt">pre-halt</h3>
+
+<ul>
 <li>entered when <code>init</code> receives a signal (ABRT, HUP, INT, or TERM)</li>
 <li>located in <code>./pre-halt.d</code></li>
 <li>contains scripts executed in order according to <code>sort -h</code></li>
