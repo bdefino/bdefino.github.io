@@ -1,5 +1,25 @@
 <h1 id="a%20runit-inspired%20init%20system">a runit-inspired init system</h1>
 
+<h2 id="vulnerabilities">vulnerabilities</h2>
+
+<ul>
+<li>configuration values are NOT verified</li>
+<li>input values (such as service names) are NOT sanitized</li>
+<li>failure to observe locks on the <code>./state</code> directory</li>
+</ul>
+
+<h2 id="configuration">configuration</h2>
+
+<p>done via <code>./config/property</code> (analogoud to virtual filesystems in Linux)</p>
+
+<h2 id="usage">usage</h2>
+
+<ul>
+<li><code>service-core</code>: start/maintain services</li>
+<li><code>service</code>: manage a service</li>
+<li><code>init</code>: *nix <code>init</code> replacement</li>
+</ul>
+
 <h2 id="runlevels">runlevels</h2>
 
 <h3 id="post-boot">post-boot</h3>
