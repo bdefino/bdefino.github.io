@@ -1,0 +1,25 @@
+a tiny/robust recursive shredder
+Usage: fshred [OPTIONS] PATH...
+OPTIONS
+	-b INT
+		set the buffer length manually
+		(defaults to 4MiB
+	-c INT
+		set the overwrite count to INT
+	-f INT
+		set the limit on `nftw`'s open file descriptors
+		(defaults to 1024)
+	-h
+		print this text and exit
+	-i INT
+		seek to INT before reading the input
+	-l
+		follow symbolic links
+	-m
+		allow spanning of multiple file systems
+	-o INT
+		seek to INT before writing the output
+	-s PATH
+		draw input entropy from PATH
+	-u
+		unlink entries under PATH
