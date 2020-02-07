@@ -3,7 +3,7 @@ Usage: fshred [OPTIONS] PATH...
 OPTIONS
 	-b INT
 		set the buffer length manually
-		(defaults to 4MiB
+		(defaults to 4MiB)
 	-c INT
 		set the overwrite count to INT
 	-f INT
