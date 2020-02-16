@@ -15,9 +15,8 @@ OPTIONS
 	-k INT
 		seek to INT before reading the KEY
 	-o PATH
-		change the output PATH
-		(setting this to an alternate path increases the number of copies
-		of the output, so use it sparingly; defaults to TARGET)
+		set an alternate output PATH
+		(defaults to TARGET)
 	-t INT
 		seek to INT before reading the TARGET
 TARGET
