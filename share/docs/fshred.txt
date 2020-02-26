@@ -1,5 +1,5 @@
 a tiny/robust recursive shredder
-Usage: fshred [OPTIONS] PATH...
+Usage: fshred [OPTIONS] TARGET...
 OPTIONS
 	-b INT
 		set the buffer length manually
@@ -12,14 +12,19 @@ OPTIONS
 	-h
 		print this text and exit
 	-i INT
-		seek to INT before reading the input
+		seek to INT (ONCE!) before reading the input
 	-l
 		follow symbolic links
 	-m
 		allow spanning of multiple file systems
 	-o INT
-		seek to INT before writing the output
+		seek to INT (each TARGET, each round) before writing the output
+	-r INT
+		overwrite PATH INT times
 	-s PATH
 		draw input entropy from PATH
 	-u
-		unlink entries under PATH
+		shred names & unlink entries beneath TARGET
+		must be specified twice to unlink special files
+TARGET
+	output path (directories are handled recursively)
