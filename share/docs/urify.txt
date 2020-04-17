@@ -1,5 +1,5 @@
 generate a data URI
-Usage: /home/hiten/.scripts/urify [OPTIONS] [FILE]
+Usage: ./urify [OPTIONS] [FILE]
 FILE
 	the file to convert
 	(defaults to `-`, for STDIN)
