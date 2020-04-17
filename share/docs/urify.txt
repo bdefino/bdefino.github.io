@@ -1,0 +1,12 @@
+generate a data URI
+Usage: /home/hiten/.scripts/urify [OPTIONS] [FILE]
+FILE
+	the file to convert
+	(defaults to `-`, for STDIN)
+OPTIONS
+	-h
+		print this text and exit
+	-m MIME-TYPE
+		set the MIME type
+		(by default, this is inferred first by the path,
+		then by the presence of any binary data)
