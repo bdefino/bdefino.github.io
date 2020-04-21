@@ -1,0 +1,18 @@
+white noise file generator
+Usage: ./whitenoise.py [OPTIONS] PATH
+OPTIONS
+	-c INT
+		the total frame count
+		(defaults to -1)
+	-h
+		print this text and exit
+	-l INT
+		frame length
+		(in bytes; defaults to 4)
+	-r INT
+		frame rate
+		(per second; defaults to 1024)
+PATH
+	output path
+	(`-` for STDOUT)
+
