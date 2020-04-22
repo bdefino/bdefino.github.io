@@ -14,5 +14,4 @@ OPTIONS
 		(per second; defaults to 1024)
 PATH
 	output path
-	(`-` for STDOUT)
 
