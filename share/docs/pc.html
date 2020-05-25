@@ -1,0 +1,59 @@
+<h1 id="%3Ccode%3Epc%3C/code%3E%20-%20a%20threaded%20producer&amp;#47;consumer%20model"><code>pc</code> - a threaded producer&#47;consumer model</h1>
+
+<p>Getting the maximum oomph out of your server&#39;s often difficult: not only does
+design complexity accelerate, but implementations suffer.  Enter <code>pc</code>.</p>
+
+<h2 id="Goal">Goal</h2>
+
+<p>This library aims to ease the pain of parallel task consumption, by providing
+an interface into a producer&#47;consumer model.</p>
+
+<h2 id="Features">Features</h2>
+
+<ul>
+<li>Intuitive model,</li>
+<li><strong>optional</strong> parallel (threaded) execution,</li>
+<li>need-based thread creation,</li>
+<li>task <strong>re</strong>consumption,</li>
+<li>and <strong>dynamic</strong> task updating.</li>
+</ul>
+
+<h2 id="Model">Model</h2>
+
+<h3 id="API">API</h3>
+
+<p>Here&#39;s an example usage (without error checking):
+```
+#include 
+#include 
+#include 
+#include 
+#include </p>
+
+<p>#include &#8220;pc.h&#8221;</p>
+
+<p>&#8230;</p>
+
+<p>int
+print<em>pthread</em>self(struct pctask <em>current<em>task)
+{
+    printf(&#8220;[thread %zu] print</em>pthread<em>self(%p)\n&#8221;, pthread</em>self(),
+        current_task);
+    return 0;   &#47;</em> don&#39;t reconsume *&#47;
+}</p>
+
+<p>&#8230;</p>
+
+<p>int i;
+struct pc pc;</p>
+
+<p>pc_init(&#38;pc, -1, ~0, 4);        &#47;* up to 4 ephemeral slaves *&#47;</p>
+
+<p>for (i = 0; i &#60; 100; i++) {
+    produce(&#38;pc, &#38;print<em>pthread</em>self, &#8220;some data&#8221;,
+        (void (*)(void *) &#38;print<em>pthread</em>self);
+}
+pc_fini(&#38;pc);
+```</p>
+
+<p>And that&#39;s pretty much it.</p>
