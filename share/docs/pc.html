@@ -35,11 +35,11 @@ an interface into a producer&#47;consumer model.</p>
 <p>&#8230;</p>
 
 <p>int
-print<em>pthread</em>self(struct pctask <em>current<em>task)
+print_pthread_self(struct pctask *current_task)
 {
-    printf(&#8220;[thread %zu] print</em>pthread<em>self(%p)\n&#8221;, pthread</em>self(),
+    printf(&#8220;[thread %zu] print_pthread_self(%p)\n&#8221;, pthread_self(),
         current_task);
-    return 0;   &#47;</em> don&#39;t reconsume *&#47;
+    return 0;   &#47;* don&#39;t reconsume *&#47;
 }</p>
 
 <p>&#8230;</p>
@@ -50,8 +50,8 @@ struct pc pc;</p>
 <p>pc_init(&#38;pc, -1, ~0, 4);        &#47;* up to 4 ephemeral slaves *&#47;</p>
 
 <p>for (i = 0; i &#60; 100; i++) {
-    produce(&#38;pc, &#38;print<em>pthread</em>self, &#8220;some data&#8221;,
-        (void (*)(void *) &#38;print<em>pthread</em>self);
+    produce(&#38;pc, &#38;print_pthread_self, &#8220;some data&#8221;,
+        (void (*)(void *) &#38;print_pthread_self);
 }
 pc_fini(&#38;pc);
 </pre></p>
