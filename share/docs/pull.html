@@ -31,22 +31,22 @@ pull src
 <h2 id="Examples">Examples</h2>
 
 <p>Pull updates to <code>.&#47;target</code> from <code>src</code>:
-<code>
+<pre>
 echo target &#62;&#62; .pull.lst
 pull src
-</code></p>
+</pre></p>
 
 <p>Pull updates to <code>.&#47;target</code> from <code>src</code>, excluding <code>src&#47;target&#47;too-big-for-dest</code>:
-<code>
+<pre>
 echo target &#62;&#62; .pull.lst
 echo too-big-for-dest &#62;&#62; .pull-nopull.lst
 pull src
-</code></p>
+</pre></p>
 
 <p>Pull updates to <code>.&#47;target</code> from <code>src</code>, but keep <code>.&#47;target&#47;must-stay</code> even if
 it&#39;s not in <code>src&#47;target</code>:
-<code>
+<pre>
 echo target &#62;&#62; .pull.lst
 echo must-stay &#62;&#62; .pull-nodelete.lst
 pull src
-</code></p>
+</pre></p>
