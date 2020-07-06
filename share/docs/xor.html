@@ -4,13 +4,12 @@
 Time Pad isn&#39;t all that easy in practice.  <code>xor</code> attempts to alleviate that.</p>
 
 <p>Well, what makes this tool different from the tons of others out there?  Easy:
-<ul>
+<url>
 <li>it&#39;s simple&#8211;the CLI is already minimal,</li>
 <li>it&#39;s secure&#8211;the <em>single source file</em> is open, contains a breakdown on the
     precautions taken, plus it&#39;s easy to read&#47;verify,</li>
 <li>and it <strong>supports multiple input files</strong>&#8211;this means you can <em>securely</em>
-    encipher a plaintext with <strong>multiple keys</strong>.</p></li>
-</ul>
+    encipher a plaintext with <strong>multiple keys</strong>.</li></ul></p>
 
 <blockquote>
 <p>In the name of security, this is extremely slow: in fact, it only encrypts a
@@ -24,35 +23,15 @@ cryptographic purposes for the reason that <strong><code>xor</code> expects to b
 <p>Oh, and here&#39;s the full help text:
 <pre>
 securely XOR files to STDOUT
-Usage: xor FILE...
-</pre>
-and an example:
-</p>
-<pre>
-
-# create a plaintext file
-
-<p>echo &#8220;some plaintext&#8221; &#62; ptext</p>
-
-# generate random keys (of the same size: if they&#39;re too small, the XOR wraps
-# around)
-
-<p>COUNT=&#8220;$(wc -c ptext)&#8220;</p>
-
-<p>for I in 1 2 3 4
-do
-    dd bs=1 count=&#8220;${COUNT}&#8220; if=&#47;dev&#47;urandom of=&#8220;key${I}&#8220;
-done</p>
-
-# generate a ciphertext
-
-<p>xor key* ptext &#62; ctext</p>
-
-# regenerate the plaintext
-
-<p>xor key* ctext &#62; ptext.recovered</p>
-
-# compare
-
-<p>diff ptext*</p>
-</pre>
+Usage: .&#47;bin&#47;xor FILE...
+FILE
+    path to an input FILE;
+    `-` means STDIN
+OPTIONS
+    -h
+        display this text and exit
+    -l
+        output as many bytes as the longest
+        input; for FIFO-like FILEs, output is
+        infinite)
+</pre></p>
