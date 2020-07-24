@@ -1,8 +1,8 @@
 /* light style */
 
 a {
-	color: green;
 	text-decoration: bold;
+	text-shadow: 4px 4px purple;
 }
 
 .align-right {
