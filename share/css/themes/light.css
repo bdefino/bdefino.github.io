@@ -1,19 +1,12 @@
 /* light style */
 
 a {
-  color: blue;
-  text-decoration: none;
+	color: blue;
+	text-decoration: none;
 }
 
 .align-right {
-  text-align: right;
-}
-
-body {
-  background-attachment: fixed;
-  background-image: url("/share/images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+	text-align: right;
 }
 
 code {
@@ -44,7 +37,7 @@ html {
 }
 
 .red {
-  color: red;
+	color: red;
 }
 
 table {
@@ -52,5 +45,5 @@ table {
 }
 
 td {
-	padding: 10px;
+	padding: 5px;
 }
