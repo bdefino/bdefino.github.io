@@ -1,12 +1,12 @@
 /* light style */
 
 a {
-  color: blue;
-  text-decoration: none;
+	color: blue;
+	text-decoration: none;
 }
 
 .align-right {
-  text-align: right;
+	text-align: right;
 }
 
 code {
@@ -38,7 +38,7 @@ html {
 }
 
 .red {
-  color: red;
+	color: red;
 }
 
 table {
