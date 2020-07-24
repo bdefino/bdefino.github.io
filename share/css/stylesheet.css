@@ -32,6 +32,7 @@ embed {
 }
 
 html {
+	background-image: url(/share/images/lines.gif);
 	border-color: lightgrey;
 	font-family: Arial, Helvetica, sans-serif;
 }
