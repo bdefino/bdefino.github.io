@@ -3,7 +3,7 @@
 a {
 	color: lightgreen;
 	text-decoration: bold;
-	text-shadow: 4px 4px purple;
+	text-shadow: -4px -4px purple;
 }
 
 .align-right {
@@ -37,7 +37,7 @@ html {
 	border-color: green;
 	color: lightgreen;
 	font-family: Courier New, monospace;
-	text-shadow: 2px 2px purple;
+	text-shadow: -2px -2px purple;
 }
 
 .red {
