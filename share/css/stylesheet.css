@@ -1,8 +1,9 @@
 /* light style */
 
 a {
-	color: blue;
-	text-decoration: none;
+	color: lightgreen;
+	text-decoration: bold;
+	text-shadow: -4px 4px purple;
 }
 
 .align-right {
@@ -28,12 +29,15 @@ embed {
 }
 
 #grid td {
-	border: solid 1px lightgrey;
+	border: solid 1px green;
 }
 
 html {
-	border-color: lightgrey;
-	font-family: Arial, Helvetica, sans-serif;
+	background-image: url(/share/images/lines.gif);
+	border-color: green;
+	color: lightgreen;
+	font-family: Courier New, monospace;
+	text-shadow: -2px 2px purple;
 }
 
 .red {
