@@ -1,4 +1,13 @@
-/* dynamically build a page based on its URL */
+/*
+dynamically build a page based on its URL
+
+for URLs that either contain "index" or are empty, this builds a brief index of
+entries within `CORE.LINK.PROJECTS`
+
+for all other URLs, this attempts to build an extended project-specific page
+for a project whose title is the URL's path's basename (e.g. "/project.html" ->
+"project")
+*/
 
 "use strict";
 
