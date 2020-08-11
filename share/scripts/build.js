@@ -93,7 +93,8 @@
 
         /* return whether the page indicates the index */
         _is_index: function() {
-            return document.location.pathname.includes("index");
+            return '/'.includes(document.location.pathname)
+                || document.location.pathname.includes("index");
         },
 
         project: {
@@ -115,7 +116,7 @@
 
                 /* remainder */
 
-                child_node(function(div) {});
+                ///////////////////////////////////////////////////////////////////////child_node(function(div) {});
             },
 
             /* return the presumed project title */
