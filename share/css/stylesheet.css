@@ -2,47 +2,42 @@
 
 a {
 	color: lightgreen;
-	text-decoration: bold;
-	text-shadow: -4px 4px purple;
+	text-shadow: -2px 2px purple;
 }
 
-.align-right {
-	text-align: right;
-}
-
-code {
+code, pre {
 	padding: 2px;
 }
 
-.credit {
-  text-align: center;
+.description {
+	/**********************************************************************************/
 }
 
-embed {
-	height: 75%;
-	width: 75%;
-}
-
-#grid {
-	border-collapse: collapse;
-	padding: 5px;
-}
-
-#grid td {
-	border: solid 1px green;
+.documentation {
+	/**********************************************************************************/
 }
 
 html {
 	background-image: url(/share/images/lines.gif);
-	border-color: green;
 	color: lightgreen;
 	font-family: Courier New, monospace;
-	text-shadow: -2px 2px blue;
 	text-shadow: 2px 2px purple;
 }
 
-.red {
-	color: red;
+.index {
+	/**********************************************************************************/
+}
+
+.index-entry {
+	/**********************************************************************************/
+}
+
+.project {
+	/**********************************************************************************/
+}
+
+.repository {
+	/**********************************************************************************/
 }
 
 table {
@@ -52,3 +47,12 @@ table {
 td {
 	padding: 5px;
 }
+
+.title {
+	/**********************************************************************************/
+}
+
+.version {
+	/**********************************************************************************/
+}
+

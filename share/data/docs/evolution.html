@@ -1,0 +1,255 @@
+<pre>Help on module evolution:
+
+NAME
+    evolution - flip bits until behavior is as expected
+
+CLASSES
+    builtins.object
+        BitPool
+            RandomBitPool
+        Driver
+        Evolver
+            RandomEvolver
+        Test
+            DelegatingExitCodeTest
+                FauxDelegatingExitCodeTest
+    
+    class BitPool(builtins.object)
+     |  bit pool (queue)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  drain(self, n)
+     |      generate up to `n` bits from the pool
+     |  
+     |  fill(self, *bits)
+     |      add bits into the pool
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class DelegatingExitCodeTest(Test)
+     |  DelegatingExitCodeTest(argv, code=0, timeout=None, *args, **kwargs)
+     |  
+     |  test for a particular exit code when passed to an external tester
+     |  
+     |  the external tester should be specified as an argument vector,
+     |  where "%s" within arguments will be replaced by the executable path
+     |  
+     |  Method resolution order:
+     |      DelegatingExitCodeTest
+     |      Test
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      return whether the executable exits properly
+     |  
+     |  __init__(self, argv, code=0, timeout=None, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Test:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Driver(builtins.object)
+     |  Driver(path, evolve=None, sleep=0, test=None)
+     |  
+     |  evolve until the executable passes the test
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      evolve until the executable passes the test (could take a while)
+     |  
+     |  __init__(self, path, evolve=None, sleep=0, test=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Evolver(builtins.object)
+     |  Evolver(path)
+     |  
+     |  evolve an executable
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      evolve the executable by 1 generation
+     |  
+     |  __init__(self, path)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class FauxDelegatingExitCodeTest(DelegatingExitCodeTest)
+     |  FauxDelegatingExitCodeTest(*args, **kwargs)
+     |  
+     |  don't delegate to a tester, rather delegate to the program itself
+     |  
+     |  Method resolution order:
+     |      FauxDelegatingExitCodeTest
+     |      DelegatingExitCodeTest
+     |      Test
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from DelegatingExitCodeTest:
+     |  
+     |  __call__(self)
+     |      return whether the executable exits properly
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Test:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class RandomBitPool(BitPool)
+     |  RandomBitPool(read_entropy=&lt;built-in function urandom&gt;)
+     |  
+     |  generate random bits from an entropy source
+     |  
+     |  Method resolution order:
+     |      RandomBitPool
+     |      BitPool
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, read_entropy=&lt;built-in function urandom&gt;)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  drain(self, n)
+     |      generate `n` bits from the entropy source
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BitPool:
+     |  
+     |  fill(self, *bits)
+     |      add bits into the pool
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BitPool:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class RandomEvolver(Evolver)
+     |  RandomEvolver(generational_flips=1, growth=True, randomize_random_whole_bit_count=True, random_whole_bit_count=1, *args, **kwargs)
+     |  
+     |  randomly evolve an executable
+     |  
+     |  each iteration of evolution (a generation) will ALWAYS flip bits,
+     |  but MAY ALSO grow/shrink the program;
+     |  the motivation is that execution is sequential,
+     |  and a failure for the programs earlier bits to reach the intended path
+     |  drastically decreases the likelihood that the program will actually
+     |  be MORE successful than its previous generation
+     |  (i.e. more moving parts are generally less productive)
+     |  
+     |  also supports improved randomness generation,
+     |  so that variability between consecutive random integers
+     |  
+     |  Method resolution order:
+     |      RandomEvolver
+     |      Evolver
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      randomly evolve (possibly grow/shrink BUT ALWAYS flip bits)
+     |  
+     |  __init__(self, generational_flips=1, growth=True, randomize_random_whole_bit_count=True, random_whole_bit_count=1, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from Evolver:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Test(builtins.object)
+     |  Test(path)
+     |  
+     |  test an executable
+     |  
+     |  Methods defined here:
+     |  
+     |  __call__(self)
+     |      return success
+     |  
+     |  __init__(self, path)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    get_bit_count(n)
+        return the minimum number of bits required to store `n`
+    
+    get_bits(byte, n=8)
+        generate bits from an UNSIGNED byte (big bit first)
+    
+    get_byte(n)
+        get a byte from an integer
+    
+    get_whole(*bits)
+        return a whole number composed from the bits (big bit first)
+    
+    main(argv)
+        evolve a program based on an argument vector
+
+FILE
+    evolution.py</pre>

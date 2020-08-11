@@ -1,52 +1,62 @@
 [
 	{
 		"description": "evolutionary programmer",
+		"repository": "https://github.com/bdefino/evolution",
 		"title": "evolution",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "execute arbitrary instructions",
+		"repository": "https://github.com/bdefino/execs",
 		"title": "execs",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "a small, runit-inspired init system",
+		"repository": "https://github.com/bdefino/init",
 		"title": "init",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "a simple UDP log daemon",
+		"repository": "https://github.com/bdefino/logd",
 		"title": "logd",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "a threaded producer/consumer model",
+		"repository": "https://github.com/bdefino/pc",
 		"title": "pc",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "pull updates from a directory",
+		"repository": "https://github.com/bdefino/pull",
 		"title": "pull",
-		"version": 1.4
+		"version": "1.4"
 	},
 	{
 		"description": "a home-made web crawler",
+		"repository": "https://github.com/bdefino/spider",
 		"title": "spider",
-		"version": 11.2
+		"version": "11.2"
 	},
 	{
 		"description": "make a system call",
+		"repository": "https://github.com/bdefino/syscall",
 		"title": "syscall",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "generate a data URI",
+		"repository": "https://github.com/bdefino/urify",
 		"title": "urify",
-		"version": 1.0
+		"version": "1.0"
 	},
 	{
 		"description": "generate white noise files",
+		"repository": "https://github.com/bdefino/whitenoise",
 		"title": "whitenoise",
-		"version": 1.0
+		"version": "1.0"
 	}
 ]
