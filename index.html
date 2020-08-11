@@ -2,25 +2,30 @@
 <html lang = "en">
 	<head>
 		<meta charset = "utf-8" />
-		<table>
-			<tr>
-				<td align = "left">
-					<a href = "/index.html">
-						&#223;. Defino 2020
-						<br />
-						&lt;<font id = "origin"></font>&gt;
-					</a>
-				</td>
-				<td align = "right">
-					<a href = "/share/downloads/resume.pdf">R&Eacute;SUM&Eacute;</a>
-				</td>
-			</tr>
-		</table>
 	</head>
 	<body>
 		<link href = "/share/css/stylesheet.css" rel = "stylesheet" />
+		<header>
+			<table>
+				<tr>
+					<td align = "left">
+						<a href = "/index.html">
+							&#223;. Defino <font id = "year"></font>
+							<br />
+							&lt;<font id = "origin"></font>&gt;
+						</a>
+					</td>
+					<td align = "right">
+						<a href = "/share/downloads/resume.pdf">R&Eacute;SUM&Eacute;</a>
+					</td>
+				</tr>
+			</table>
+		</header>
 		<script type = "text/javascript">
+			/* update the header to use the current origin/year */
+
 			document.getElementById("origin").innerText = document.location.origin;
+			document.getElementById("year").innerText = (new Date()).getFullYear();
 		</script>
 		<script src = "/share/scripts/build.js" type = "text/javascript"></script>
 	</body>
