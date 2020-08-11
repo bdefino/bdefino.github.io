@@ -37,7 +37,8 @@ html {
 	border-color: green;
 	color: lightgreen;
 	font-family: Courier New, monospace;
-	text-shadow: -2px 2px purple;
+	text-shadow: -2px 2px blue;
+	text-shadow: 2px 2px purple;
 }
 
 .red {
