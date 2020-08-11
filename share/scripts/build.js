@@ -45,7 +45,7 @@
                     /* generate the index */
 
                     child_node(function(container) {
-                        JSON.parse(response.body).forEach(function(project) {
+                        response.json().forEach(function(project) {
                             let div = child_node(function(div) {
                                 div.class = CORE.CLASS.PROJECT;
                             }, container, "div");
