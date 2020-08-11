@@ -12,7 +12,7 @@
             VERSION: "version"
         },
         LINK: {
-            PROJECTS: "/share/projects.json"
+            PROJECTS: "/share/data/projects.json"
         }
     };
     /* create a child node */
