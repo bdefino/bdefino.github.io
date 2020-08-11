@@ -8,8 +8,8 @@ for all other URLs, this attempts to build an extended project-specific page
 for a project whose title is the URL's path's basename (e.g. "/project.html" ->
 "project")
 
-to actually see the generated HTML:
-    `console.log(document.documentElement.innerHTML)` (after building)
+to actually see the generated HTML, build the page, then run
+`console.log(document.documentElement.innerHTML)`
 */
 
 "use strict";
@@ -28,6 +28,13 @@ to actually see the generated HTML:
     let ID = {
         PROJECT_PREFIX: "project-"
     };
+    let PAGE_TYPE = {
+        INDEX: "index",
+        PROJECT: "project"
+    };
+    let QUERY = {
+        TITLE: "title"
+    };
     let SHARE = {
         DOCS_DIR: "/share/data/docs",
         PROJECTS_JSON: "/share/data/projects.json",
@@ -36,10 +43,10 @@ to actually see the generated HTML:
     /* build the page based on its perceived type */
     let build = function() {
         switch (infer_page_type()) {
-        case CLASS.INDEX:
+        case PAGE_TYPE.INDEX:
             build_index_page();
             break;
-        case CLASS.PROJECT:
+        case PAGE_TYPE.PROJECT:
             build_project_page();
             break;
         default:
@@ -60,7 +67,7 @@ to actually see the generated HTML:
             a.text = project.title;
         }, child_node(d => d.classList.add(CLASS.TITLE), entry, "div"), 'a');
 
-        /* respository */
+        /* repository */
 
         child_node(function(a) {
             a.href = project.repository;
@@ -125,24 +132,15 @@ to actually see the generated HTML:
     };
     /* infer the page type based on the URL */
     let infer_page_type = function() {
-        return document.location.pathname.includes("index")
-                || '/'.includes(document.location.pathname)
-            ? CLASS.INDEX : CLASS.PROJECT;
+        if (typeof infer_project_title() === "string") {
+            return PAGE_TYPE.PROJECT;
+        }
+        return PAGE_TYPE.INDEX;
     };
     /* infer the project title based on the URL */
     let infer_project_title = function() {
-        let title = document.location.pathname;
-
-        if (title.includes('/')) {
-            title = title.split('/').pop();
-        }
-
-        if (!title.includes('.')) {
-            return title;
-        }
-        title = title.split('.');
-        title.pop();
-        return title.join('.');
+        return (new URL(document.location.href)).searchParams.get(
+            QUERY.TITLE);
     };
     /* return an array of projects */
     let list_projects = async function() {
@@ -159,10 +157,8 @@ to actually see the generated HTML:
     };
     /* return the documentation for a project with a given title */
     let project_documentation = async function(title) {
-        let text = await (await response_for(
-            project_documentation_link(title))).text();
-        console.log(project_documentation_link(title));
-        console.log(await response_for(project_documentation_link(title)));
+        let text = await (await response_for(project_documentation_link(
+            title))).text();
         return text;
     };
     /* return the documentation link for a project with a given title */
@@ -171,7 +167,7 @@ to actually see the generated HTML:
     };
     /* return the link for a project with a given title */
     let project_link = function(title) {
-        return `/${title}.html`;
+        return "/index.html?title=" + title;
     };
     /* return the response if `fetch` succeeds, otherwise `undefined` */
     let response_for = async function() {
