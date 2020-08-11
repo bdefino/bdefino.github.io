@@ -123,10 +123,15 @@
                 let path = document.location.pathname;
 
                 if (path.includes('/')) {
-                    path = path.substring(path.rfind('/') + 1, path.length);
+                    path = path.split('/').pop();
                 }
-                return path.includes('.') ? path.substring(0, path.rfind('.'))
-                    : path;
+
+                if (path.includes('.')) {
+                    path = path.split('.');
+                    path.pop();
+                    return path.join('.');
+                }
+                return path;
             }
         }
     };
