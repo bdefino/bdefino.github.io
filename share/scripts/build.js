@@ -28,9 +28,12 @@ to actually see the generated HTML, build the page, then run
     let ID = {
         PROJECT_PREFIX: "project-"
     };
-    let PAGE_TYPE = {
-        INDEX: "index",
-        PROJECT: "project"
+    let PAGE = {
+        PROJECT_PREFIX: "/index.html?title=",
+        TYPE: {
+            INDEX: "index",
+            PROJECT: "project"
+        }
     };
     let QUERY = {
         TITLE: "title"
@@ -43,10 +46,10 @@ to actually see the generated HTML, build the page, then run
     /* build the page based on its perceived type */
     let build = function() {
         switch (infer_page_type()) {
-        case PAGE_TYPE.INDEX:
+        case PAGE.TYPE.INDEX:
             build_index_page();
             break;
-        case PAGE_TYPE.PROJECT:
+        case PAGE.TYPE.PROJECT:
             build_project_page();
             break;
         default:
@@ -133,9 +136,9 @@ to actually see the generated HTML, build the page, then run
     /* infer the page type based on the URL */
     let infer_page_type = function() {
         if (typeof infer_project_title() === "string") {
-            return PAGE_TYPE.PROJECT;
+            return PAGE.TYPE.PROJECT;
         }
-        return PAGE_TYPE.INDEX;
+        return PAGE.TYPE.INDEX;
     };
     /* infer the project title based on the URL */
     let infer_project_title = function() {
@@ -167,7 +170,7 @@ to actually see the generated HTML, build the page, then run
     };
     /* return the link for a project with a given title */
     let project_link = function(title) {
-        return "/index.html?title=" + title;
+        return PAGE.PROJECT_PREFIX + title;
     };
     /* return the response if `fetch` succeeds, otherwise `undefined` */
     let response_for = async function() {
