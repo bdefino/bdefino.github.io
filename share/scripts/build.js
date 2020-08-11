@@ -16,13 +16,13 @@
         }
     };
     /* create a child node */
-    let child_node = function(init, parent, tag) {
+    let child_node = function(init, _parent, tag) {
         let child = document.createElement(tag);
 
         if (typeof init === "function") {
             init(child);
         }
-        parent.appendChild(child);
+        _parent.appendChild(child);
         return child;
     };
     let core = {
