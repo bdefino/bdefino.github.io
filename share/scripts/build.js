@@ -13,7 +13,7 @@
         LINK: {
             PROJECTS: "/share/data/projects.json"
         },
-        PROJECT {
+        PROJECT: {
             DESCRIPTION: "description",
             TITLE: "title",
             VERSION: "version"
