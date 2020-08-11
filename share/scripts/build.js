@@ -118,6 +118,7 @@ for a project whose title is the URL's path's basename (e.g. "/project.html" ->
                 /* title */
 
                 let title = this._project_title();
+                console.log(title);
                 need_title(title);
 
                 /* content */
