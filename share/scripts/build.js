@@ -5,9 +5,8 @@
 (function() {
     let CORE = {
         CLASS: {
-            LONG: "long",
+            DESCRIPTION: "description",
             PROJECT: "project",
-            SHORT: "short",
             TITLE: "title",
             VERSION: "version"
         },
@@ -63,7 +62,7 @@
 
                 child_node(function(a) {
                     a.class = CORE.CLASS.TITLE;
-                    a.src = '/' + project["title"] + ".html";
+                    a.href = '/' + project["title"] + ".html";
                     a.text = project["title"];
                 }, child_node(null, container, "div"), 'a');
 
@@ -77,8 +76,8 @@
                 /* short description */
 
                 child_node(function(i) {
-                    i.class = CORE.CLASS.SHORT;
-                    i.text = project["short"];
+                    i.class = CORE.CLASS.DESCRIPTION;
+                    i.innerText = project["description"];
                 }, child_node(null, container, "div"), 'i');
             }
         },
