@@ -37,7 +37,7 @@
 
                 need_body();
                 let that = this;
-                fetch({url: CORE.LINK.PROJECTS}).then(function(response) {
+                fetch(CORE.LINK.PROJECTS).then(function(response) {
                     if (!response.ok) {
                         throw new Error("failed to pull index");
                     }
