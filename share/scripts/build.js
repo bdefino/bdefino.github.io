@@ -12,6 +12,11 @@
         },
         LINK: {
             PROJECTS: "/share/data/projects.json"
+        },
+        PROJECT {
+            DESCRIPTION: "description",
+            TITLE: "title",
+            VERSION: "version"
         }
     };
     /* create a child node */
@@ -62,22 +67,22 @@
 
                 child_node(function(a) {
                     a.class = CORE.CLASS.TITLE;
-                    a.href = '/' + project["title"] + ".html";
-                    a.text = project["title"];
+                    a.href = '/' + project[CORE.PROJECT.TITLE] + ".html";
+                    a.text = project[CORE.PROJECT.TITLE];
                 }, child_node(null, container, "div"), 'a');
 
                 /* version */
 
                 child_node(function(p) {
                     p.class = CORE.CLASS.VERSION;
-                    p.text = project["version"];
+                    p.text = project[CORE.PROJECT.VERSION];
                 }, child_node(null, container, "div"), 'p');
 
                 /* short description */
 
                 child_node(function(i) {
                     i.class = CORE.CLASS.DESCRIPTION;
-                    i.innerText = project["description"];
+                    i.innerText = project[CORE.PROJECT.DESCRIPTION];
                 }, child_node(null, container, "div"), 'i');
             }
         },
