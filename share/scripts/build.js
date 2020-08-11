@@ -44,12 +44,14 @@
 
                     /* generate the index */
 
-                    child_node(function(container) {
-                        response.json().forEach(function(project) {
-                            let div = child_node(function(div) {
-                                div.class = CORE.CLASS.PROJECT;
-                            }, container, "div");
-                            that._build_entry(div, project);
+                    child_node(async function(container) {
+                        await response.json().then(function(projects) {
+                            projects.forEach(function(project) {
+                                let div = child_node(function(div) {
+                                    div.class = CORE.CLASS.PROJECT;
+                                }, container, "div");
+                                that._build_entry(div, project);
+                            });
                         });
                     }, document.body, "div");
                 });
