@@ -1,0 +1,52 @@
+[
+	{
+		"description": "evolutionary programmer",
+		"title": "evolution",
+		"version": 1.0
+	},
+	{
+		"description": "execute arbitrary instructions",
+		"title": "execs",
+		"version": 1.0
+	},
+	{
+		"description": "a small, runit-inspired init system",
+		"title": "init",
+		"version": 1.0
+	},
+	{
+		"description": "a simple UDP log daemon",
+		"title": "logd",
+		"version": 1.0
+	},
+	{
+		"description": "a threaded producer/consumer model",
+		"title": "pc",
+		"version": 1.0
+	},
+	{
+		"description": "pull updates from a directory",
+		"title": "pull",
+		"version": 1.4
+	},
+	{
+		"description": "a home-made web crawler",
+		"title": "spider",
+		"version": 11.2
+	},
+	{
+		"description": "make a system call",
+		"title": "syscall",
+		"version": 1.0
+	},
+	{
+		"description": "generate a data URI",
+		"title": "urify",
+		"version": 1.0
+	},
+	{
+		"description": "generate white noise files",
+		"title": "whitenoise",
+		"version": 1.0
+	}
+]
