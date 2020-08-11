@@ -20,13 +20,13 @@
         }
     };
     /* create a child node */
-    let child_node = function(init, _parent, tag) {
+    let child_node = function(init, parent, tag) {
         let child = document.createElement(tag);
 
         if (typeof init === "function") {
             init(child);
         }
-        _parent.appendChild(child);
+        parent.appendChild(child);
         return child;
     };
     let core = {
@@ -118,7 +118,7 @@
 
                 /* index version */
 
-                core.index._build_entry(title, container);
+                core.index._build_entry(container, title);
 
                 /* remainder */
 
