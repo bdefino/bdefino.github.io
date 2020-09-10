@@ -49,13 +49,13 @@ print_pthread_self(struct consumertask *current_task)
 <p>int i;
 struct consumer consumer;</p>
 
-<p>pc_init(&#38;consumer, -1, ~0, 4);        &#47;* up to 4 ephemeral slaves *&#47;</p>
+<p>consumer_init(&#38;consumer, -1, ~0, 4);        &#47;* up to 4 ephemeral slaves *&#47;</p>
 
 <p>for (i = 0; i &#60; 100; i++) {
     produce(&#38;consumer, &#38;print_pthread_self, &#8220;some data&#8221;,
         (void (*)(void *) &#38;print_pthread_self);
 }
-pc_fini(&#38;consumer);
+consumer_fini(&#38;consumer);
 </pre></p>
 
 <p>And that&#39;s pretty much it.</p>
