@@ -27,13 +27,13 @@
 		"description": "a threaded producer/consumer model",
 		"repository": "https://github.com/bdefino/pc",
 		"title": "pc",
-		"version": "1.0"
+		"version": "1.1"
 	},
 	{
 		"description": "pull updates from a directory",
 		"repository": "https://github.com/bdefino/pull",
 		"title": "pull",
-		"version": "1.4"
+		"version": "1.5"
 	},
 	{
 		"description": "a home-made web crawler",
