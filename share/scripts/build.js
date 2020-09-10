@@ -113,14 +113,14 @@ to actually see the generated HTML, build the page, then run
 
         /* build an index entry */
 
-        build_index_entry(container, project);
+        build_index_entry(child_node(d => d.classList.add(CLASS.INDEX),
+                container, "div"), project);
 
         /* build the documentation */
 
         child_node(async function(div) {
             div.classList.add(CLASS.DOCUMENTATION);
             div.innerHTML = await project_documentation(project.title);
-            console.log(div.innerHTML);
         }, container, "div");
     };
     /* create/initialize/attach a new child node */
