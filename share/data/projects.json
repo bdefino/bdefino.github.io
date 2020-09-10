@@ -30,6 +30,11 @@
 		"title": "pull"
 	},
 	{
+		"description": "Linux LKM rootkit",
+		"repository": "https://github.com/bvalarezo/rootkit",
+		"title": "rootkit"
+	},
+	{
 		"description": "a home-made web crawler",
 		"repository": "https://github.com/bdefino/spider",
 		"title": "spider"
