@@ -22,8 +22,7 @@ to actually see the generated HTML, build the page, then run
         INDEX_ENTRY: "index-entry",
         PROJECT: "project",
         REPOSITORY: "repository",
-        TITLE: "title",
-        VERSION: "version"
+        TITLE: "title"
     };
     let ID = {
         PROJECT_PREFIX: "project-"
@@ -58,37 +57,33 @@ to actually see the generated HTML, build the page, then run
     };
     /* build an index entry for a project with a given title */
     let build_index_entry = function(container, project) {
-        let entry = child_node(function(div) {
-            div.classList.add(CLASS.INDEX_ENTRY);
-            div.id = ID.PROJECT_PREFIX + project.title;
-        }, container, "div");
-
-        /* (local) link/title */
-
-        child_node(function(a) {
+        let entry = child_node(function(a) {
+            a.classList.add(CLASS.INDEX_ENTRY);
             a.href = project_link(project.title);
-            a.text = project.title;
-        }, child_node(d => d.classList.add(CLASS.TITLE), entry, "div"), 'a');
+            a.id = ID.PROJECT_PREFIX + project.title;
+        }, container, 'a');
+
+        /* title */
+
+        child_node(function(span) {
+            span.appendChild(document.createTextNode(project.title));
+            span.classList.add(CLASS.TITLE);
+        }, entry, "span");
 
         /* repository */
 
         child_node(function(a) {
+            a.classList.add(CLASS.REPOSITORY);
             a.href = project.repository;
             child_node(i => i.src = SHARE.REPOSITORY_PNG, a, "img");
-        }, child_node(d => d.classList.add(CLASS.REPOSITORY), entry, "div"),
-            'a');
-
-        /* version */
-
-        child_node(f => f.innerText = project.version,
-            child_node(d => d.classList.add(CLASS.VERSION), entry, "div"),
-            "font");
+        }, entry, 'a');
 
         /* description */
 
-        child_node(i => i.innerText = project.description,
-            child_node(d => d.classList.add(CLASS.DESCRIPTION), entry, "div"),
-            'i');
+        child_node(function(span) {
+            span.classList.add(CLASS.DESCRIPTION);
+            span.innerText = project.description;
+        }, entry, "span");
     };
     /* build an index page */
     let build_index_page = async function() {
@@ -113,8 +108,7 @@ to actually see the generated HTML, build the page, then run
 
         /* build an index entry */
 
-        build_index_entry(child_node(d => d.classList.add(CLASS.INDEX),
-                container, "div"), project);
+        build_index_entry(container, project);
 
         /* build the documentation */
 

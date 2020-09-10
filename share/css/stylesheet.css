@@ -2,6 +2,8 @@
 
 a {
 	color: lightgreen;
+	font-weight: bold;
+	text-decoration: none;
 	text-shadow: -2px 2px purple;
 }
 
@@ -10,9 +12,10 @@ code, pre {
 }
 
 .description {
-    float: right;
-    padding-left: 10px;
-    /**********************************************************************************/
+	font-style: italic;
+	font-weight: normal;
+	padding-left: 10px;
+	/**********************************************************************************/
 }
 
 .documentation {
@@ -27,34 +30,32 @@ html {
 }
 
 .index {
-    display: inline-block;
-    overflow: auto;
+	display: block;
 	/**********************************************************************************/
 }
 
 .index-entry {
-    border: 1px solid purple;
-    box-shadow: 2px 2px lightgreen;
-    display: inline-block;
-    float: left;
-    margin: 5px;
-    padding: 5px;
+	border: 1px solid green;
+	box-shadow: 2px 2px purple;
+	display: inline-block;
+	margin: 5px;
+	padding: 5px;
+	text-decoration: none;
 	/**********************************************************************************/
 }
 
 .project {
-    float: none;
 	/**********************************************************************************/
 }
 
 .repository {
-    float: left;
-    padding-left: 5px;
-    /**********************************************************************************/
+	float: right;
+	padding-left: 5px;
+	/**********************************************************************************/
 }
 
 .repository img {
-    height: 40px;
+	height: 40px;
 	width: 40px;
 }
 
@@ -63,14 +64,7 @@ table {
 }
 
 .title {
-    float: left;
-    padding-left: 5px;
-	/**********************************************************************************/
-}
-
-.version {
-    float: left;
-    padding-left: 5px;
+	padding-left: 5px;
 	/**********************************************************************************/
 }
 
