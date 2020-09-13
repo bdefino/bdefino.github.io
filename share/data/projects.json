@@ -1,56 +1,67 @@
 [
 	{
 		"description": "evolutionary programmer",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/evolution",
 		"title": "evolution"
 	},
 	{
 		"description": "execute arbitrary instructions",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/execs",
 		"title": "execs"
 	},
 	{
 		"description": "a small, runit-inspired init system",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/init",
 		"title": "init"
 	},
 	{
 		"description": "a simple UDP log daemon",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/logd",
 		"title": "logd"
 	},
 	{
 		"description": "a threaded producer/consumer model",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/pc",
 		"title": "pc"
 	},
 	{
 		"description": "pull updates from a directory",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/pull",
 		"title": "pull"
 	},
 	{
 		"description": "Linux LKM rootkit",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bvalarezo/rootkit",
 		"title": "rootkit"
 	},
 	{
 		"description": "a home-made web crawler",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/spider",
 		"title": "spider"
 	},
 	{
 		"description": "make a system call",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/syscall",
 		"title": "syscall"
 	},
 	{
 		"description": "generate a data URI",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/urify",
 		"title": "urify"
 	},
 	{
 		"description": "generate white noise files",
+		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/whitenoise",
 		"title": "whitenoise"
 	}
