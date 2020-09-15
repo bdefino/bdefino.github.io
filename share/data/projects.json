@@ -3,7 +3,7 @@
 		"description": "a Python 3 command & control framework",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com//",
-		"title": ""
+		"title": "c2"
 	},
 	{
 		"description": "persistent queueing",
