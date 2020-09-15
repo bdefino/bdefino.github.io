@@ -1,5 +1,17 @@
 [
 	{
+		"description": "a Python 3 command & control framework",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com//",
+		"title": ""
+	},
+	{
+		"description": "persistent queueing",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/bdefino/disque",
+		"title": "disque"
+	},
+	{
 		"description": "evolutionary programmer",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/evolution",
@@ -24,10 +36,28 @@
 		"title": "logd"
 	},
 	{
+		"description": "approximate a location for a NANPA-associated phone number",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/bdefino/lookup",
+		"title": "lookup"
+	},
+	{
+		"description": "a list of possibly-valid US payphones",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/hiten2/payphones",
+		"title": "payphones"
+	},
+	{
 		"description": "a threaded producer/consumer model",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/pc",
 		"title": "pc"
+	},
+	{
+		"description": "a simple portscanner",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/bdefino/portscanner",
+		"title": "portscanner"
 	},
 	{
 		"description": "pull updates from a directory",
@@ -42,6 +72,12 @@
 		"title": "rootkit"
 	},
 	{
+		"description": "a small, temporary file storage server",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/hiten2/sdrop",
+		"title": "sdrop"
+	},
+	{
 		"description": "a home-made web crawler",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/spider",
@@ -54,10 +90,22 @@
 		"title": "syscall"
 	},
 	{
+		"description": "return-oriented programming project",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/bdefino/cse363-transpiler",
+		"title": "transpiler"
+	},
+	{
 		"description": "generate a data URI",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/urify",
 		"title": "urify"
+	},
+	{
+		"description": "comprehensive URL parsing",
+		"logo": "/share/images/repository.png",
+		"repository": "https://github.com/bdefino/url",
+		"title": "url"
 	},
 	{
 		"description": "generate white noise files",
