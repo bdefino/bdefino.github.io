@@ -10,9 +10,9 @@
 				<tr>
 					<td align = "left">
 						<a href = "/index.html">
-							&#223;. Defino <span id = "year"></span>
+							&#223;. Defino 2021
 							<br />
-							&lt;<span id = "origin"></span>&gt;
+							&lt;bdefino.github.io&gt;
 						</a>
 					</td>
 					<td align = "right">
@@ -21,12 +21,6 @@
 				</tr>
 			</table>
 		</header>
-		<script type = "text/javascript">
-			/* update the header to use the current origin/year */
-
-			document.getElementById("origin").innerText = document.location.origin;
-			document.getElementById("year").innerText = (new Date()).getFullYear();
-		</script>
 %s
 	</body>
 </html>

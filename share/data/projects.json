@@ -1,11 +1,5 @@
 [
 	{
-		"description": "a Python 3 command & control framework",
-		"logo": "/share/images/repository.png",
-		"repository": "https://github.com//",
-		"title": "c2"
-	},
-	{
 		"description": "persistent queueing",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/disque",
@@ -22,12 +16,6 @@
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/execs",
 		"title": "execs"
-	},
-	{
-		"description": "a small, runit-inspired init system",
-		"logo": "/share/images/repository.png",
-		"repository": "https://github.com/bdefino/init",
-		"title": "init"
 	},
 	{
 		"description": "a simple UDP log daemon",
@@ -58,12 +46,6 @@
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/portscanner",
 		"title": "portscanner"
-	},
-	{
-		"description": "pull updates from a directory",
-		"logo": "/share/images/repository.png",
-		"repository": "https://github.com/bdefino/pull",
-		"title": "pull"
 	},
 	{
 		"description": "Linux LKM rootkit",
@@ -106,11 +88,5 @@
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/url",
 		"title": "url"
-	},
-	{
-		"description": "generate white noise files",
-		"logo": "/share/images/repository.png",
-		"repository": "https://github.com/bdefino/whitenoise",
-		"title": "whitenoise"
 	}
 ]
