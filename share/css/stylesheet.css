@@ -49,6 +49,10 @@ html {
 	width: 40px;
 }
 
+.red {
+	color: red;
+}
+
 .repository {
 	float: right;
 	padding-left: 5px;
