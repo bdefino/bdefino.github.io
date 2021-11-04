@@ -17,10 +17,10 @@ def build_index(*projects):
 
 def build_index_entry(**kwargs):
     __doc__ = "build an index entry for a project"
-    print("\t\t\t<span class = \"date\">%s</span>"
-    	    % kwargs.get("date", ""))
     print("\t\t\t<a class = \"index-entry\" href = \"%s\">"
             % kwargs.get("repository", ""))
+    print("\t\t\t<span class = \"date\">%s</span>"
+    	    % kwargs.get("date", ""))
     print("\t\t\t\t<span class = \"title\">%s</span>"
             % kwargs.get("title", ""))
     print("\t\t\t\t<span class = \"description\">%s</span>"
