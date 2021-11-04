@@ -17,6 +17,8 @@ def build_index(*projects):
 
 def build_index_entry(**kwargs):
     __doc__ = "build an index entry for a project"
+    print("\t\t\t<span class = \"date\">%s</span>"
+    	    % kwargs.get("date", ""))
     print("\t\t\t<a class = \"index-entry\" href = \"%s\">"
             % kwargs.get("repository", ""))
     print("\t\t\t\t<span class = \"title\">%s</span>"
@@ -56,7 +58,7 @@ def main(argv):
     stdout = sys.stdout
     stringio = io.StringIO()
     sys.stdout = stringio
-    build_index(*projects)
+    build_index(*sorted(projects, key = lambda p: p["date"], reverse = True))
     sys.stdout = stdout
     print(template % stringio.getvalue().rstrip('\n'), end = "")
     return 0

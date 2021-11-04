@@ -1,89 +1,104 @@
 [
 	{
+    		"date": "2019",
 		"description": "persistent queueing",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/disque",
 		"title": "disque"
 	},
 	{
+    		"date": "2020",
 		"description": "evolutionary programmer",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/evolution",
 		"title": "evolution"
 	},
 	{
+    		"date": "2020",
 		"description": "execute arbitrary instructions",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/execs",
 		"title": "execs"
 	},
 	{
+    		"date": "2019",
 		"description": "a simple UDP log daemon",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/logd",
 		"title": "logd"
 	},
 	{
+    		"date": "2018",
 		"description": "approximate a location for a NANPA-associated phone number",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/lookup",
 		"title": "lookup"
 	},
 	{
+    		"date": "2019",
 		"description": "a list of possibly-valid US payphones",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/hiten2/payphones",
 		"title": "payphones"
 	},
 	{
+    		"date": "2020",
 		"description": "a threaded producer/consumer model",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/pc",
 		"title": "pc"
 	},
 	{
+    		"date": "2019",
 		"description": "a simple portscanner",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/portscanner",
 		"title": "portscanner"
 	},
 	{
+    		"date": "2020",
 		"description": "Linux LKM rootkit",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bvalarezo/rootkit",
 		"title": "rootkit"
 	},
 	{
+    		"date": "2019",
 		"description": "a small, temporary file storage server",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/hiten2/sdrop",
 		"title": "sdrop"
 	},
 	{
+    		"date": "2019",
 		"description": "a home-made web crawler",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/spider",
 		"title": "spider"
 	},
 	{
+    		"date": "2019",
 		"description": "make a system call",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/syscall",
 		"title": "syscall"
 	},
 	{
+    		"date": "2020",
 		"description": "return-oriented programming project",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/cse363-transpiler",
 		"title": "transpiler"
 	},
 	{
+    		"date": "2020",
 		"description": "generate a data URI",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/urify",
 		"title": "urify"
 	},
 	{
+    		"date": "2018",
 		"description": "comprehensive URL parsing",
 		"logo": "/share/images/repository.png",
 		"repository": "https://github.com/bdefino/url",
