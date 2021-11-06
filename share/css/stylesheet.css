@@ -11,7 +11,9 @@ code, pre {
 	padding: 2px;
 }
 
-.date {}
+.date {
+	font-weight: normal;
+}
 
 .description {
 	font-style: italic;
